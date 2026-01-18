@@ -8,7 +8,10 @@ import {
   SiOpencv,
   SiArduino,
   SiRaspberrypi,
-  SiApachemaven
+  SiApachemaven,
+  SiFirebase,
+  SiDiscord,
+  SiTelegram
 } from 'react-icons/si';
 import { FaJava } from 'react-icons/fa';
 
@@ -23,7 +26,7 @@ export default function Home() {
           </div>
           <div className="flex items-center gap-6">
             <a
-              href="https://github.com/electrogu"
+              href="https://github.com/arif-aygun"
               target="_blank"
               rel="noopener noreferrer"
               className="font-mono font-medium text-zinc-400 hover:text-white transition-colors"
@@ -102,6 +105,18 @@ export default function Home() {
                     <SiMysql className="w-4 h-4 text-blue-400" />
                     MySQL
                   </span>
+                  <span className="flex items-center gap-1.5 px-3 py-1.5 bg-zinc-800/50 rounded-lg text-sm border border-zinc-700/30">
+                    <SiFirebase className="w-4 h-4 text-yellow-500" />
+                    Firebase
+                  </span>
+                  <span className="flex items-center gap-1.5 px-3 py-1.5 bg-zinc-800/50 rounded-lg text-sm border border-zinc-700/30">
+                    <SiDiscord className="w-4 h-4 text-indigo-400" />
+                    Discord.js
+                  </span>
+                  <span className="flex items-center gap-1.5 px-3 py-1.5 bg-zinc-800/50 rounded-lg text-sm border border-zinc-700/30">
+                    <SiTelegram className="w-4 h-4 text-blue-400" />
+                    Telegraf
+                  </span>
                 </div>
               </div>
               <div>
@@ -171,7 +186,7 @@ export default function Home() {
             </a>
 
             <a
-              href="https://github.com/electrogu/midnight-guardian"
+              href="https://github.com/arif-aygun/midnight-guardian"
               target="_blank"
               rel="noopener noreferrer"
               className="block bg-gradient-to-br from-zinc-900/50 to-zinc-950/50 border border-zinc-800/30 rounded-xl p-6 hover:border-emerald-500/30 transition-all group"
@@ -189,7 +204,7 @@ export default function Home() {
             </a>
 
             <a
-              href="https://github.com/electrogu/EYS"
+              href="https://github.com/arif-aygun/EYS"
               target="_blank"
               rel="noopener noreferrer"
               className="block bg-gradient-to-br from-zinc-900/50 to-zinc-950/50 border border-zinc-800/30 rounded-xl p-6 hover:border-emerald-500/30 transition-all group"
@@ -207,7 +222,7 @@ export default function Home() {
             </a>
 
             <a
-              href="https://github.com/electrogu/Logistic-Route-Optimizer"
+              href="https://github.com/arif-aygun/Logistic-Route-Optimizer"
               target="_blank"
               rel="noopener noreferrer"
               className="block bg-gradient-to-br from-zinc-900/50 to-zinc-950/50 border border-zinc-800/30 rounded-xl p-6 hover:border-emerald-500/30 transition-all group"
@@ -221,6 +236,43 @@ export default function Home() {
                 <span className="px-2 py-1 bg-zinc-800/30 rounded text-xs text-zinc-500 border border-zinc-800/20">JavaScript</span>
                 <span className="px-2 py-1 bg-zinc-800/30 rounded text-xs text-zinc-500 border border-zinc-800/20">HTML5</span>
                 <span className="px-2 py-1 bg-zinc-800/30 rounded text-xs text-zinc-500 border border-zinc-800/20">Canvas API</span>
+              </div>
+            </a>
+
+            <a
+              href="https://github.com/arif-aygun/MES-Chatbot-public"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block bg-gradient-to-br from-zinc-900/50 to-zinc-950/50 border border-zinc-800/30 rounded-xl p-6 hover:border-emerald-500/30 transition-all group"
+            >
+              <div className="flex items-start justify-between mb-3">
+                <h3 className="text-xl font-semibold text-emerald-400 group-hover:text-emerald-300 font-mono">MES-Chatbot</h3>
+                <ExternalLink className="w-5 h-5 text-zinc-500 group-hover:text-emerald-400 transition-colors flex-shrink-0" />
+              </div>
+              <p className="text-zinc-400 mb-4 leading-relaxed">Telegram bot integration with Express server, Firebase Firestore, and automated notification scheduling using node-schedule.</p>
+              <div className="flex flex-wrap gap-2 font-mono">
+                <span className="px-2 py-1 bg-zinc-800/30 rounded text-xs text-zinc-500 border border-zinc-800/20">Node.js</span>
+                <span className="px-2 py-1 bg-zinc-800/30 rounded text-xs text-zinc-500 border border-zinc-800/20">Express</span>
+                <span className="px-2 py-1 bg-zinc-800/30 rounded text-xs text-zinc-500 border border-zinc-800/20">Firebase</span>
+                <span className="px-2 py-1 bg-zinc-800/30 rounded text-xs text-zinc-500 border border-zinc-800/20">Telegraf</span>
+              </div>
+            </a>
+
+            <a
+              href="https://github.com/arif-aygun/CharityZone"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block bg-gradient-to-br from-zinc-900/50 to-zinc-950/50 border border-zinc-800/30 rounded-xl p-6 hover:border-emerald-500/30 transition-all group"
+            >
+              <div className="flex items-start justify-between mb-3">
+                <h3 className="text-xl font-semibold text-emerald-400 group-hover:text-emerald-300 font-mono">CharityZone</h3>
+                <ExternalLink className="w-5 h-5 text-zinc-500 group-hover:text-emerald-400 transition-colors flex-shrink-0" />
+              </div>
+              <p className="text-zinc-400 mb-4 leading-relaxed">Discord bot for searching and learning about charity organizations with slash commands, maintenance mode, and comprehensive logging.</p>
+              <div className="flex flex-wrap gap-2 font-mono">
+                <span className="px-2 py-1 bg-zinc-800/30 rounded text-xs text-zinc-500 border border-zinc-800/20">Node.js</span>
+                <span className="px-2 py-1 bg-zinc-800/30 rounded text-xs text-zinc-500 border border-zinc-800/20">Discord.js</span>
+                <span className="px-2 py-1 bg-zinc-800/30 rounded text-xs text-zinc-500 border border-zinc-800/20">JavaScript</span>
               </div>
             </a>
           </div>
@@ -253,7 +305,7 @@ export default function Home() {
             </a>
 
             <a
-              href="https://github.com/electrogu/base-genius"
+              href="https://github.com/arif-aygun/base-genius"
               target="_blank"
               rel="noopener noreferrer"
               className="block bg-gradient-to-br from-zinc-900/50 to-zinc-950/50 border border-zinc-800/30 rounded-xl p-6 hover:border-violet-500/30 transition-all group"
