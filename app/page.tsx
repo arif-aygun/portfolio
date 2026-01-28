@@ -95,10 +95,6 @@ export default function Home() {
                     C
                   </span>
                   <span className="flex items-center gap-1.5 px-3 py-1.5 bg-zinc-800/50 rounded-lg text-sm border border-zinc-700/30">
-                    <SiC className="w-4 h-4 text-blue-500" />
-                    C
-                  </span>
-                  <span className="flex items-center gap-1.5 px-3 py-1.5 bg-zinc-800/50 rounded-lg text-sm border border-zinc-700/30">
                     <SiCplusplus className="w-4 h-4 text-blue-500" />
                     C++
                   </span>
