@@ -1,26 +1,115 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Retro Arcade Color Palette */
+  --pixel-black: #0a0014;
+  --pixel-purple: #2d1b69;
+  --neon-pink: #ff006e;
+  --neon-cyan: #00f5ff;
+  --neon-yellow: #ffea00;
+  --neon-green: #39ff14;
+  --neon-orange: #ff6600;
+  --pixel-gray: #1a1a2e;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --font-pixel: var(--font-press-start);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-press-start), monospace;
+  background: var(--pixel-black);
+  color: var(--neon-cyan);
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
+/* Pixel grid background */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 245, 255, 0.03) 2px,
+      rgba(0, 245, 255, 0.03) 4px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 245, 255, 0.03) 2px,
+      rgba(0, 245, 255, 0.03) 4px
+    );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Scanline effect */
+body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.15),
+    rgba(0, 0, 0, 0.15) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  pointer-events: none;
+  z-index: 9999;
+  animation: scanline 8s linear infinite;
+}
+
+@keyframes scanline {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(10px);
+  }
+}
+
+/* Pixel border effect */
+.pixel-border {
+  box-shadow: 
+    0 0 0 2px currentColor,
+    0 0 0 4px var(--pixel-black),
+    0 0 20px rgba(0, 245, 255, 0.5);
+}
+
+/* Neon glow text */
+.neon-text {
+  text-shadow: 
+    0 0 10px currentColor,
+    0 0 20px currentColor,
+    0 0 30px currentColor,
+    0 0 40px currentColor;
+}
+
+/* Retro button hover */
+.retro-btn {
+  transition: all 0.1s;
+  box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.5);
+}
+
+.retro-btn:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.5);
+}
+
+.retro-btn:active {
+  transform: translate(4px, 4px);
+  box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.5);
 }
