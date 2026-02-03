@@ -30,7 +30,7 @@ export function SkillsContent() {
     const categories = ['backend', 'database', 'devops', 'frontend', 'systems', 'blockchain', 'ml', 'hardware'];
 
     return (
-        <div className="p-8 font-mono text-sm">
+        <div className="p-8 font-mono ">
             <div className="flex gap-6">
                 <div className="text-concrete/30 select-none text-right" style={{ minWidth: '2.5rem' }}>
                     {Array.from({ length: 40 }, (_, i) => (

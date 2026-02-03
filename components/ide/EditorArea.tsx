@@ -62,7 +62,7 @@ export function EditorArea({ tabs, activeTab, onTabChange, onTabClose }: EditorA
     };
 
     return (
-        <div className="flex-1 flex flex-col bg-theme-bg overflow-hidden">
+        <div className="flex-1 flex flex-col bg-theme-bg overflow-hidden" style={{ fontSize: 'var(--editor-font-size)' }}>
             {tabs.length > 0 ? (
                 <>
                     <TabBar
@@ -120,7 +120,7 @@ function WelcomeScreen() {
                 <p className="text-concrete mb-6">
                     Click on a file in the Explorer to get started
                 </p>
-                <div className="text-sm text-concrete/50">
+                <div className=" text-concrete/50">
                     <p>💡 Try opening <span className="text-electric">README.md</span> first</p>
                 </div>
             </div>
@@ -130,7 +130,7 @@ function WelcomeScreen() {
 
 function PackageJsonContent() {
     return (
-        <div className="p-8 font-mono text-sm">
+        <div className="p-8 font-mono ">
             <div className="flex gap-6">
                 <div className="text-concrete/30 select-none text-right" style={{ minWidth: '2.5rem' }}>
                     {Array.from({ length: 20 }, (_, i) => (

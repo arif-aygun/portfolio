@@ -4,7 +4,7 @@ import { Github, Linkedin, Mail, ArrowUpRight } from 'lucide-react';
 
 export function ReadmeContent() {
     return (
-        <div className="p-8 max-w-4xl font-mono text-sm">
+        <div className="p-8 max-w-4xl font-mono ">
             {/* Line numbers */}
             <div className="flex gap-6">
                 <div className="text-concrete/30 select-none text-right" style={{ minWidth: '2.5rem' }}>

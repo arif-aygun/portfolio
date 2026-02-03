@@ -4,7 +4,7 @@ import { Mail, Github, Linkedin, Send } from 'lucide-react';
 
 export function ContactContent() {
     return (
-        <div className="p-8 font-mono text-sm">
+        <div className="p-8 font-mono ">
             <div className="flex gap-6">
                 <div className="text-concrete/30 select-none text-right" style={{ minWidth: '2.5rem' }}>
                     {Array.from({ length: 30 }, (_, i) => (

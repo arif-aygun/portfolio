@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Space_Grotesk } from "next/font/google";
-import "@fontsource/jetbrains-mono";
+import { Inter, Space_Grotesk, JetBrains_Mono, Fira_Code, Source_Code_Pro } from "next/font/google";
 import "./globals.css";
 import { ReactLenis } from "@/components/lenis-provider";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -17,6 +16,24 @@ const spaceGrotesk = Space_Grotesk({
   display: 'swap',
 });
 
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-jb-mono",
+  display: 'swap',
+});
+
+const firaCode = Fira_Code({
+  subsets: ["latin"],
+  variable: "--font-fira-code",
+  display: 'swap',
+});
+
+const sourceCodePro = Source_Code_Pro({
+  subsets: ["latin"],
+  variable: "--font-source-code",
+  display: 'swap',
+});
+
 export const metadata: Metadata = {
   title: "Arif Aygun | Full Stack Developer",
   description: "Backend Infrastructure & Full Stack Development",
@@ -30,7 +47,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.variable} ${spaceGrotesk.variable} antialiased bg-void text-paper selection:bg-acid selection:text-void`}
+        className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} ${firaCode.variable} ${sourceCodePro.variable} antialiased bg-void text-paper selection:bg-acid selection:text-void`}
       >
         <ThemeProvider>
           {children}

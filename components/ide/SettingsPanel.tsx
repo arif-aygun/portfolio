@@ -1,15 +1,16 @@
 'use client';
 
-import { useTheme, THEME_CONFIGS, Theme } from '@/components/theme-provider';
-import { Palette, Type, Zap, Check, Search, LucideIcon } from 'lucide-react';
+import { useTheme, THEME_CONFIGS, Theme, FontFamily } from '@/components/theme-provider';
+import { Palette, Type, Zap, Check, Search, LucideIcon, Minus, Plus } from 'lucide-react';
 import { useState, useMemo } from 'react';
 
 interface SettingItem {
     label: string;
-    value: string;
+    value?: string;
     action?: () => void;
     icon?: LucideIcon;
     readOnly?: boolean;
+    render?: () => React.ReactNode;
 }
 
 interface SettingCategory {
@@ -19,7 +20,11 @@ interface SettingCategory {
 }
 
 export function SettingsPanel() {
-    const { theme, setTheme } = useTheme();
+    const {
+        theme, setTheme,
+        fontFamily, setFontFamily,
+        fontSize, setFontSize
+    } = useTheme();
     const [showThemePicker, setShowThemePicker] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
 
@@ -51,13 +56,43 @@ export function SettingsPanel() {
             items: [
                 {
                     label: 'Font Family',
-                    value: 'JetBrains Mono',
-                    readOnly: true,
+                    render: () => (
+                        <select
+                            value={fontFamily}
+                            onChange={(e) => setFontFamily(e.target.value as FontFamily)}
+                            className="w-full bg-concrete/10 border border-theme-border rounded px-2 py-1.5 text-sm text-theme-fg focus:outline-none focus:border-electric"
+                        >
+                            <option value="JetBrains Mono">JetBrains Mono</option>
+                            <option value="Fira Code">Fira Code</option>
+                            <option value="Source Code Pro">Source Code Pro</option>
+                            <option value="Consolas">Consolas</option>
+                            <option value="Monospace">Monospace</option>
+                        </select>
+                    )
                 },
                 {
                     label: 'Font Size',
-                    value: '14px',
-                    readOnly: true,
+                    render: () => (
+                        <div className="flex items-center gap-2">
+                            <button
+                                onClick={() => setFontSize(Math.max(12, fontSize - 1))}
+                                className="p-1.5 bg-concrete/10 hover:bg-concrete/20 rounded border border-theme-border transition-colors text-theme-fg"
+                                disabled={fontSize <= 12}
+                            >
+                                <Minus className="w-4 h-4" />
+                            </button>
+                            <div className="flex-1 text-center text-sm font-mono bg-concrete/5 rounded border border-theme-border py-1.5 text-theme-fg">
+                                {fontSize}px
+                            </div>
+                            <button
+                                onClick={() => setFontSize(Math.min(24, fontSize + 1))}
+                                className="p-1.5 bg-concrete/10 hover:bg-concrete/20 rounded border border-theme-border transition-colors text-theme-fg"
+                                disabled={fontSize >= 24}
+                            >
+                                <Plus className="w-4 h-4" />
+                            </button>
+                        </div>
+                    )
                 },
             ],
         },
@@ -201,7 +236,9 @@ export function SettingsPanel() {
                             {section.items.map((item, itemIdx) => (
                                 <div key={itemIdx} className="space-y-1">
                                     <div className="text-xs text-concrete">{item.label}</div>
-                                    {item.action ? (
+                                    {item.render ? (
+                                        item.render()
+                                    ) : item.action ? (
                                         <button
                                             onClick={item.action}
                                             className="w-full flex items-center justify-between px-3 py-2 bg-concrete/10 hover:bg-concrete/10 rounded text-sm text-theme-fg transition-colors"

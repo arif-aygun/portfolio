@@ -26,16 +26,18 @@ export type Theme =
     | 'ayu-light'
     | 'gruvbox-light';
 
+export type FontFamily = 'JetBrains Mono' | 'Fira Code' | 'Source Code Pro' | 'Consolas' | 'Monospace';
+
 interface ThemeContextType {
     theme: Theme;
     setTheme: (theme: Theme) => void;
+    fontFamily: FontFamily;
+    setFontFamily: (font: FontFamily) => void;
+    fontSize: number;
+    setFontSize: (size: number) => void;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
-
-// Helper to ensure contrast, typical VS Code borders are opaque
-// Dark themes usually have borders darker than bg, or slightly lighter but subtle.
-// Light themes have darker borders.
 
 export const THEME_CONFIGS = {
     'dark-plus': {
@@ -45,7 +47,7 @@ export const THEME_CONFIGS = {
         foreground: '#d4d4d4',
         activityBar: '#333333',
         sideBar: '#252526',
-        border: '#2b2b2b', // Subtle dark border
+        border: '#2b2b2b',
         comment: '#6a9955',
         keyword: '#569cd6',
         string: '#ce9178',
@@ -61,7 +63,7 @@ export const THEME_CONFIGS = {
         foreground: '#000000',
         activityBar: '#2c2c2c',
         sideBar: '#f3f3f3',
-        border: '#e5e5e5', // Subtle light border
+        border: '#e5e5e5',
         comment: '#008000',
         keyword: '#0000ff',
         string: '#a31515',
@@ -91,9 +93,9 @@ export const THEME_CONFIGS = {
         category: 'Dark',
         background: '#282a36',
         foreground: '#f8f8f2',
-        activityBar: '#1e1f29', // Distinct
-        sideBar: '#21222c',    // Distinct
-        border: '#191a21',     // Darker border
+        activityBar: '#1e1f29',
+        sideBar: '#21222c',
+        border: '#191a21',
         comment: '#6272a4',
         keyword: '#ff79c6',
         string: '#f1fa8c',
@@ -109,7 +111,7 @@ export const THEME_CONFIGS = {
         foreground: '#d6deeb',
         activityBar: '#011627',
         sideBar: '#011627',
-        border: '#5f7e97', // Night Owl uses blueish borders
+        border: '#5f7e97',
         comment: '#637777',
         keyword: '#c792ea',
         string: '#ecc48d',
@@ -157,7 +159,7 @@ export const THEME_CONFIGS = {
         foreground: '#d8dee9',
         activityBar: '#2e3440',
         sideBar: '#2e3440',
-        border: '#3b4252', // Nord border
+        border: '#3b4252',
         comment: '#616e88',
         keyword: '#81a1c1',
         string: '#a3be8c',
@@ -221,7 +223,7 @@ export const THEME_CONFIGS = {
         foreground: '#ffffff',
         activityBar: '#15232d',
         sideBar: '#15232d',
-        border: '#0d3a58', // Distinct blue border
+        border: '#0d3a58',
         comment: '#0088ff',
         keyword: '#ff9d00',
         string: '#3ad900',
@@ -301,7 +303,7 @@ export const THEME_CONFIGS = {
         foreground: '#657b83',
         activityBar: '#eee8d5',
         sideBar: '#eee8d5',
-        border: '#e1dac6', // Subtle darker tone
+        border: '#e1dac6',
         comment: '#93a1a1',
         keyword: '#859900',
         string: '#2aa198',
@@ -362,14 +364,22 @@ export const THEME_CONFIGS = {
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
     const [theme, setThemeState] = useState<Theme>('github-dark');
+    const [fontFamily, setFontFamilyState] = useState<FontFamily>('JetBrains Mono');
+    const [fontSize, setFontSizeState] = useState<number>(14);
     const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
         setMounted(true);
-        const stored = localStorage.getItem('portfolio-theme-v1') as Theme | null;
-        if (stored && THEME_CONFIGS[stored]) {
-            setThemeState(stored);
+        const storedTheme = localStorage.getItem('portfolio-theme-v1') as Theme | null;
+        if (storedTheme && THEME_CONFIGS[storedTheme]) {
+            setThemeState(storedTheme);
         }
+
+        const storedFont = localStorage.getItem('editor-font-family') as FontFamily | null;
+        if (storedFont) setFontFamilyState(storedFont);
+
+        const storedSize = localStorage.getItem('editor-font-size');
+        if (storedSize) setFontSizeState(parseInt(storedSize));
     }, []);
 
     useEffect(() => {
@@ -377,7 +387,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
             const config = THEME_CONFIGS[theme];
             const root = document.documentElement;
 
-            // Apply CSS variables
+            // Apply CSS variables - Theme
             root.style.setProperty('--theme-bg', config.background);
             root.style.setProperty('--theme-fg', config.foreground);
             root.style.setProperty('--theme-activity-bar', config.activityBar);
@@ -392,20 +402,59 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
             root.style.setProperty('--theme-variable', config.variable);
             root.style.setProperty('--theme-type', config.type);
 
+            // Apply CSS variables - Fonts
+            let fontStack = 'monospace';
+            switch (fontFamily) {
+                case 'JetBrains Mono':
+                    fontStack = 'var(--font-jb-mono), monospace';
+                    break;
+                case 'Fira Code':
+                    fontStack = 'var(--font-fira-code), monospace';
+                    break;
+                case 'Source Code Pro':
+                    fontStack = 'var(--font-source-code), monospace';
+                    break;
+                case 'Consolas':
+                    fontStack = 'Consolas, monospace';
+                    break;
+                case 'Monospace':
+                    fontStack = 'monospace';
+                    break;
+                default:
+                    fontStack = 'var(--font-jb-mono), monospace';
+            }
+
+            root.style.setProperty('--font-mono', fontStack);
+            root.style.setProperty('--editor-font-size', `${fontSize}px`);
+
             // Store preference
             localStorage.setItem('portfolio-theme-v1', theme);
+            localStorage.setItem('editor-font-family', fontFamily);
+            localStorage.setItem('editor-font-size', fontSize.toString());
 
-            // Set data attribute for potential CSS selectors
+            // Set data attribute
             root.setAttribute('data-color-theme', theme);
         }
-    }, [theme, mounted]);
+    }, [theme, fontFamily, fontSize, mounted]);
 
     const setTheme = (newTheme: Theme) => {
         setThemeState(newTheme);
     };
 
+    const setFontFamily = (newFont: FontFamily) => {
+        setFontFamilyState(newFont);
+    };
+
+    const setFontSize = (newSize: number) => {
+        setFontSizeState(newSize);
+    };
+
     return (
-        <ThemeContext.Provider value={{ theme, setTheme }}>
+        <ThemeContext.Provider value={{
+            theme, setTheme,
+            fontFamily, setFontFamily,
+            fontSize, setFontSize
+        }}>
             {children}
         </ThemeContext.Provider>
     );
