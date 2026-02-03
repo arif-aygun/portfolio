@@ -9,6 +9,7 @@ import { EditorArea } from '@/components/ide/EditorArea';
 import { StatusBar } from '@/components/ide/StatusBar';
 import { QuickFileOpener } from '@/components/ide/QuickFileOpener';
 import { useKeyboardShortcuts } from '@/hooks/useKeyboardShortcuts';
+import { useIsMobile } from '@/hooks/useMediaQuery';
 
 interface Tab {
   name: string;
@@ -30,6 +31,7 @@ export default function Home() {
   const [activeTab, setActiveTab] = useState('');
   const [sidebarVisible, setSidebarVisible] = useState(true);
   const [quickFileOpen, setQuickFileOpen] = useState(false);
+  const isMobile = useIsMobile();
 
   const handleFileSelect = (fileName: string) => {
     // Check if tab already exists
@@ -78,7 +80,7 @@ export default function Home() {
   });
 
   return (
-    <div className="h-screen flex flex-col bg-[#1e1e1e] text-paper overflow-hidden">
+    <div className={`h-screen flex flex-col bg-[#1e1e1e] text-paper overflow-hidden ${isMobile ? 'pb-14' : ''}`}>
       {/* Quick File Opener Modal */}
       <QuickFileOpener
         isOpen={quickFileOpen}
@@ -88,27 +90,30 @@ export default function Home() {
 
       {/* Main IDE Layout */}
       <div className="flex-1 flex overflow-hidden">
-        {/* Activity Bar */}
-        <ActivityBar
-          activeView={activeView}
-          onViewChange={setActiveView}
-          sidebarVisible={sidebarVisible}
-          onToggleSidebar={() => setSidebarVisible(!sidebarVisible)}
-        />
+        {/* Activity Bar - Desktop only (mobile is bottom nav) */}
+        {!isMobile && (
+          <ActivityBar
+            activeView={activeView}
+            onViewChange={setActiveView}
+            sidebarVisible={sidebarVisible}
+            onToggleSidebar={() => setSidebarVisible(!sidebarVisible)}
+          />
+        )}
 
         {/* Sidebar - Explorer/Search/Settings */}
-        {sidebarVisible && (
-          <>
-            {activeView === 'explorer' && (
-              <Sidebar onFileSelect={handleFileSelect} activeFile={activeTab} />
-            )}
-            {activeView === 'search' && (
-              <SearchPanel onFileSelect={handleFileSelect} />
-            )}
-            {activeView === 'settings' && (
-              <SettingsPanel />
-            )}
-          </>
+        {activeView === 'explorer' && sidebarVisible && (
+          <Sidebar
+            onFileSelect={handleFileSelect}
+            activeFile={activeTab}
+            isOpen={sidebarVisible}
+            onClose={() => setSidebarVisible(false)}
+          />
+        )}
+        {activeView === 'search' && sidebarVisible && (
+          <SearchPanel onFileSelect={handleFileSelect} />
+        )}
+        {activeView === 'settings' && sidebarVisible && (
+          <SettingsPanel />
         )}
 
         {/* Editor Area */}
@@ -120,8 +125,18 @@ export default function Home() {
         />
       </div>
 
-      {/* Status Bar */}
-      <StatusBar />
+      {/* Status Bar - Desktop only */}
+      {!isMobile && <StatusBar />}
+
+      {/* Activity Bar - Mobile (bottom navigation) */}
+      {isMobile && (
+        <ActivityBar
+          activeView={activeView}
+          onViewChange={setActiveView}
+          sidebarVisible={sidebarVisible}
+          onToggleSidebar={() => setSidebarVisible(!sidebarVisible)}
+        />
+      )}
     </div>
   );
 }

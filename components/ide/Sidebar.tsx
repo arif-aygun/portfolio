@@ -1,7 +1,8 @@
 'use client';
 
-import { FileCode, FolderOpen, Folder, ChevronRight, ChevronDown } from 'lucide-react';
-import { useState } from 'react';
+import { FileCode, FolderOpen, Folder, ChevronRight, ChevronDown, X } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { useIsMobile } from '@/hooks/useMediaQuery';
 
 interface FileNode {
     name: string;
@@ -13,10 +14,13 @@ interface FileNode {
 interface SidebarProps {
     onFileSelect: (fileName: string) => void;
     activeFile: string;
+    isOpen: boolean;
+    onClose?: () => void;
 }
 
-export function Sidebar({ onFileSelect, activeFile }: SidebarProps) {
+export function Sidebar({ onFileSelect, activeFile, isOpen, onClose }: SidebarProps) {
     const [expandedFolders, setExpandedFolders] = useState<Set<string>>(new Set(['src']));
+    const isMobile = useIsMobile();
 
     const fileTree: FileNode[] = [
         { name: 'README.md', type: 'file', icon: '📄' },
@@ -44,6 +48,14 @@ export function Sidebar({ onFileSelect, activeFile }: SidebarProps) {
         setExpandedFolders(newExpanded);
     };
 
+    const handleFileSelect = (fileName: string) => {
+        onFileSelect(fileName);
+        // Close sidebar on mobile after file selection
+        if (isMobile && onClose) {
+            onClose();
+        }
+    };
+
     const renderNode = (node: FileNode, level: number = 0) => {
         const isExpanded = expandedFolders.has(node.name);
         const isActive = activeFile === node.name;
@@ -53,7 +65,7 @@ export function Sidebar({ onFileSelect, activeFile }: SidebarProps) {
                 <div key={node.name}>
                     <div
                         onClick={() => toggleFolder(node.name)}
-                        className="flex items-center gap-1 px-2 py-1 hover:bg-[#2a2d2e] cursor-pointer select-none text-sm"
+                        className="flex items-center gap-1 px-2 py-1 hover:bg-[#2a2d2e] cursor-pointer select-none text-sm active:bg-[#3e3e42]"
                         style={{ paddingLeft: `${level * 12 + 8}px` }}
                     >
                         {isExpanded ? (
@@ -76,8 +88,8 @@ export function Sidebar({ onFileSelect, activeFile }: SidebarProps) {
         return (
             <div
                 key={node.name}
-                onClick={() => onFileSelect(node.name)}
-                className={`flex items-center gap-2 px-2 py-1 hover:bg-[#2a2d2e] cursor-pointer select-none text-sm ${isActive ? 'bg-[#37373d]' : ''
+                onClick={() => handleFileSelect(node.name)}
+                className={`flex items-center gap-2 px-2 py-1 hover:bg-[#2a2d2e] cursor-pointer select-none text-sm active:bg-[#3e3e42] ${isActive ? 'bg-[#37373d]' : ''
                     }`}
                 style={{ paddingLeft: `${level * 12 + 24}px` }}
             >
@@ -87,6 +99,43 @@ export function Sidebar({ onFileSelect, activeFile }: SidebarProps) {
         );
     };
 
+    if (isMobile) {
+        // Mobile: Drawer with backdrop
+        return (
+            <>
+                {/* Backdrop */}
+                {isOpen && (
+                    <div
+                        className="fixed inset-0 bg-black/60 backdrop-blur-sm z-30"
+                        onClick={onClose}
+                    />
+                )}
+
+                {/* Drawer */}
+                <div
+                    className={`fixed top-0 left-0 bottom-14 w-72 bg-[#252526] border-r border-[#3e3e42] z-40 transform transition-transform duration-300 ${isOpen ? 'translate-x-0' : '-translate-x-full'
+                        }`}
+                >
+                    <div className="flex items-center justify-between px-4 py-3 border-b border-[#3e3e42]">
+                        <div className="text-xs uppercase tracking-wider text-concrete/70 font-semibold">
+                            Explorer
+                        </div>
+                        <button
+                            onClick={onClose}
+                            className="p-1 hover:bg-[#2a2d2e] rounded transition-colors text-concrete"
+                        >
+                            <X className="w-5 h-5" />
+                        </button>
+                    </div>
+                    <div className="overflow-y-auto pb-4" style={{ height: 'calc(100% - 56px)' }}>
+                        {fileTree.map((node) => renderNode(node))}
+                    </div>
+                </div>
+            </>
+        );
+    }
+
+    // Desktop: Static sidebar
     return (
         <div className="w-64 bg-[#252526] border-r border-[#3e3e42] h-full overflow-y-auto">
             <div className="px-4 py-2 text-xs uppercase tracking-wider text-concrete/70 font-semibold">
