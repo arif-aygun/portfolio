@@ -1,20 +1,25 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter, Space_Grotesk } from "next/font/google";
+import "@fontsource/jetbrains-mono";
 import "./globals.css";
+import { ReactLenis } from "@/components/lenis-provider";
+import { ThemeProvider } from "@/components/theme-provider";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const inter = Inter({
   subsets: ["latin"],
+  variable: "--font-inter",
+  display: 'swap',
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
+  variable: "--font-space-grotesk",
+  display: 'swap',
 });
 
 export const metadata: Metadata = {
-  title: "Ahmet Arif Aygun | Portfolio",
-  description: "Backend & Infrastructure Engineer | UAV Systems | Web3 Developer",
+  title: "Arif Aygun | Full Stack Developer",
+  description: "Backend Infrastructure & Full Stack Development",
 };
 
 export default function RootLayout({
@@ -25,9 +30,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${inter.variable} ${spaceGrotesk.variable} antialiased bg-void text-paper selection:bg-acid selection:text-void`}
       >
-        {children}
+        <ThemeProvider>
+          <ReactLenis root>
+            {children}
+          </ReactLenis>
+        </ThemeProvider>
       </body>
     </html>
   );
