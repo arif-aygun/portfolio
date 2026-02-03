@@ -5,6 +5,7 @@ import { motion, useScroll, useTransform, useSpring, useMotionValue } from 'fram
 import { useRef, useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
 import { useTheme } from '@/components/theme-provider';
+import { ProjectDrawer } from '@/components/project-drawer';
 import {
   SiNodedotjs, SiTypescript, SiExpress, SiMysql, SiPython,
   SiOpencv, SiArduino, SiRaspberrypi, SiFirebase, SiDocker,
@@ -69,108 +70,51 @@ function MagneticButton({ children, className, href }: { children: React.ReactNo
   );
 }
 
-function CodeProjectBlock({ title, desc, tags, href, index }: any) {
-  const [isExpanded, setIsExpanded] = useState(false);
+function ProjectListItem({ title, desc, tags, index, onClick }: any) {
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["0 1", "1.33 1"]
   });
-  const y = useTransform(scrollYProgress, [0, 1], [50, 0]);
   const opacity = useTransform(scrollYProgress, [0, 0.5], [0, 1]);
 
   return (
     <motion.div
       ref={ref}
-      style={{ y, opacity }}
-      className="relative group"
+      style={{ opacity }}
+      onClick={onClick}
+      className="group relative flex items-center gap-6 p-6 border border-electric/10 rounded-lg hover:border-electric/30 hover:bg-electric/5 transition-all cursor-pointer"
     >
-      <div
-        className="relative bg-neutral-900/50 border border-electric/20 rounded-lg overflow-hidden hover:border-electric/40 transition-all cursor-pointer"
-        onClick={() => setIsExpanded(!isExpanded)}
-      >
-        {/* Header bar like VSCode */}
-        <div className="flex items-center gap-2 px-4 py-2 border-b border-white/5 bg-neutral-900/80">
-          <div className="flex gap-1.5">
-            <div className="w-3 h-3 rounded-full bg-red-500/80"></div>
-            <div className="w-3 h-3 rounded-full bg-yellow-500/80"></div>
-            <div className="w-3 h-3 rounded-full bg-green-500/80"></div>
-          </div>
-          <span className="text-xs text-concrete font-mono ml-2">{title}.tsx</span>
-          <a
-            href={href}
-            target="_blank"
-            onClick={(e) => e.stopPropagation()}
-            className="ml-auto text-electric hover:text-acid transition-colors"
-          >
-            <ExternalLink className="w-4 h-4" />
-          </a>
-        </div>
-
-        {/* Code content */}
-        <div className="p-4 font-mono text-sm">
-          {/* Line numbers + imports */}
-          <div className="flex gap-3 text-xs">
-            <div className="text-concrete/40 select-none text-right" style={{ minWidth: '2rem' }}>
-              {[1, 2, 3, 4].map((n) => <div key={n}>{n}</div>)}
-            </div>
-            <div className="flex-1">
-              <div className="text-purple-400">import</div>
-              <div className="text-concrete">
-                <span className="text-blue-400">const</span>{' '}
-                <span className="text-yellow-400">{title.replace(/\s+/g, '')}</span> = {'{'}
-              </div>
-              <div className="pl-4 text-concrete">
-                <span className="text-green-400">stack</span>: [{tags.slice(0, 3).map((t: string, i: number) => (
-                  <span key={i}>
-                    <span className="text-orange-400">'{t}'</span>
-                    {i < Math.min(tags.length, 3) - 1 && ', '}
-                  </span>
-                ))}],
-              </div>
-              <div className="text-concrete">{'}'}</div>
-            </div>
-          </div>
-
-          {/* Expandable description */}
-          <motion.div
-            initial={false}
-            animate={{ height: isExpanded ? 'auto' : 0 }}
-            className="overflow-hidden"
-          >
-            <div className="mt-3 pt-3 border-t border-white/5">
-              <div className="flex gap-3 text-xs">
-                <div className="text-concrete/40 select-none text-right" style={{ minWidth: '2rem' }}>
-                  <div>5</div>
-                  <div>6</div>
-                </div>
-                <div className="flex-1">
-                  <div className="text-concrete">
-                    <span className="text-blue-400">const</span>{' '}
-                    <span className="text-yellow-400">description</span> =
-                    <span className="text-green-400"> "{desc}"</span>
-                  </div>
-                  <div className="mt-2 text-concrete">
-                    <span className="text-purple-400">export default</span>{' '}
-                    <span className="text-yellow-400">{title.replace(/\s+/g, '')}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Click to expand hint */}
-          {!isExpanded && (
-            <div className="mt-2 text-xs text-concrete/50 flex items-center gap-1">
-              <span>{'// Click to expand'}</span>
-            </div>
-          )}
-        </div>
+      {/* Index */}
+      <div className="flex-shrink-0 w-12 h-12 rounded-full border border-electric/20 flex items-center justify-center font-mono text-sm text-electric">
+        {String(index + 1).padStart(2, '0')}
       </div>
 
-      {/* Line number indicator */}
-      <div className="absolute -left-8 top-4 text-xs text-concrete/30 font-mono">
-        {String(index + 1).padStart(2, '0')}
+      {/* Content */}
+      <div className="flex-1 min-w-0">
+        <h3 className="text-xl font-space-grotesk font-bold mb-1 group-hover:text-electric transition-colors">
+          {title}
+        </h3>
+        <p className="text-concrete text-sm line-clamp-1">{desc}</p>
+      </div>
+
+      {/* Tags Preview */}
+      <div className="hidden md:flex gap-2 flex-shrink-0">
+        {tags.slice(0, 2).map((tag: string) => (
+          <span key={tag} className="px-2 py-1 text-xs bg-electric/10 rounded border border-electric/20 text-concrete">
+            {tag}
+          </span>
+        ))}
+        {tags.length > 2 && (
+          <span className="px-2 py-1 text-xs text-concrete/50">
+            +{tags.length - 2}
+          </span>
+        )}
+      </div>
+
+      {/* Arrow */}
+      <div className="flex-shrink-0 w-8 h-8 rounded-full bg-electric/10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+        <ArrowUpRight className="w-4 h-4 text-electric" />
       </div>
     </motion.div>
   );
@@ -270,6 +214,7 @@ function InteractiveOrb() {
 export default function Home() {
   const customCursorRef = useRef<HTMLDivElement>(null);
   const { theme, toggleTheme } = useTheme();
+  const [selectedProject, setSelectedProject] = useState<any>(null);
 
   useEffect(() => {
     const moveCursor = (e: MouseEvent) => {
@@ -441,21 +386,22 @@ export default function Home() {
 
       {/* Projects */}
       <section id="work" className="py-16 md:py-24 px-6 md:px-12 bg-neutral-950/50 border-t border-electric/10">
-        <div className="max-w-5xl mx-auto">
+        <div className="max-w-4xl mx-auto">
           <div className="mb-12">
-            <h2 className="text-fluid-h2 font-space-grotesk font-bold mb-4">
-              <span className="text-concrete/50 font-mono text-lg">{'// '}</span>
-              Selected Works
-            </h2>
-            <p className="text-concrete max-w-xl font-mono text-sm">
-              <span className="text-purple-400">const</span>{' '}
-              <span className="text-yellow-400">projects</span> = [...]
+            <h2 className="text-fluid-h2 font-space-grotesk font-bold mb-4">Selected Works</h2>
+            <p className="text-concrete max-w-xl">
+              Click any project to view details
             </p>
           </div>
 
-          <div className="space-y-6 pl-8">
+          <div className="space-y-4">
             {projects.map((p, i) => (
-              <CodeProjectBlock key={i} {...p} index={i} />
+              <ProjectListItem
+                key={i}
+                {...p}
+                index={i}
+                onClick={() => setSelectedProject(p)}
+              />
             ))}
           </div>
         </div>
@@ -490,6 +436,13 @@ export default function Home() {
           </div>
         </div>
       </footer>
+
+      {/* Project Drawer */}
+      <ProjectDrawer
+        isOpen={!!selectedProject}
+        onClose={() => setSelectedProject(null)}
+        project={selectedProject}
+      />
     </main>
   );
 }
