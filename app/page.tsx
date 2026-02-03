@@ -7,6 +7,8 @@ import { SearchPanel } from '@/components/ide/SearchPanel';
 import { SettingsPanel } from '@/components/ide/SettingsPanel';
 import { EditorArea } from '@/components/ide/EditorArea';
 import { StatusBar } from '@/components/ide/StatusBar';
+import { QuickFileOpener } from '@/components/ide/QuickFileOpener';
+import { useKeyboardShortcuts } from '@/hooks/useKeyboardShortcuts';
 
 interface Tab {
   name: string;
@@ -27,6 +29,7 @@ export default function Home() {
   const [tabs, setTabs] = useState<Tab[]>([]);
   const [activeTab, setActiveTab] = useState('');
   const [sidebarVisible, setSidebarVisible] = useState(true);
+  const [quickFileOpen, setQuickFileOpen] = useState(false);
 
   const handleFileSelect = (fileName: string) => {
     // Check if tab already exists
@@ -51,8 +54,38 @@ export default function Home() {
     }
   };
 
+  const handleNextTab = () => {
+    if (tabs.length <= 1) return;
+    const currentIndex = tabs.findIndex(tab => tab.name === activeTab);
+    const nextIndex = (currentIndex + 1) % tabs.length;
+    setActiveTab(tabs[nextIndex].name);
+  };
+
+  const handlePreviousTab = () => {
+    if (tabs.length <= 1) return;
+    const currentIndex = tabs.findIndex(tab => tab.name === activeTab);
+    const previousIndex = (currentIndex - 1 + tabs.length) % tabs.length;
+    setActiveTab(tabs[previousIndex].name);
+  };
+
+  // Keyboard shortcuts
+  useKeyboardShortcuts({
+    onToggleSidebar: () => setSidebarVisible(!sidebarVisible),
+    onOpenQuickFile: () => setQuickFileOpen(true),
+    onFocusSearch: () => setActiveView('search'),
+    onNextTab: handleNextTab,
+    onPreviousTab: handlePreviousTab,
+  });
+
   return (
     <div className="h-screen flex flex-col bg-[#1e1e1e] text-paper overflow-hidden">
+      {/* Quick File Opener Modal */}
+      <QuickFileOpener
+        isOpen={quickFileOpen}
+        onClose={() => setQuickFileOpen(false)}
+        onFileSelect={handleFileSelect}
+      />
+
       {/* Main IDE Layout */}
       <div className="flex-1 flex overflow-hidden">
         {/* Activity Bar */}
