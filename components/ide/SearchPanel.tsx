@@ -32,25 +32,25 @@ export function SearchPanel({ onFileSelect }: SearchPanelProps) {
         : [];
 
     return (
-        <div className="w-64 bg-[#252526] border-r border-[#3e3e42] h-full flex flex-col">
-            <div className="px-4 py-2 text-xs uppercase tracking-wider text-concrete/70 font-semibold border-b border-[#3e3e42]">
+        <div className="w-64 bg-theme-sidebar border-r border-theme-border h-full flex flex-col">
+            <div className="px-4 py-2 text-xs uppercase tracking-wider text-concrete/70 font-semibold border-b border-theme-border">
                 Search
             </div>
 
             {/* Search Input */}
-            <div className="p-3 border-b border-[#3e3e42]">
+            <div className="p-3 border-b border-theme-border">
                 <div className="relative">
                     <input
                         type="text"
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                         placeholder="Search files..."
-                        className="w-full bg-[#3c3c3c] text-paper text-sm px-3 py-2 pr-8 rounded border border-[#3e3e42] focus:border-electric focus:outline-none"
+                        className="w-full bg-concrete/10 text-theme-fg text-sm px-3 py-2 pr-8 rounded border border-theme-border focus:border-electric focus:outline-none"
                     />
                     {searchQuery && (
                         <button
                             onClick={() => setSearchQuery('')}
-                            className="absolute right-2 top-1/2 -translate-y-1/2 text-concrete hover:text-paper"
+                            className="absolute right-2 top-1/2 -translate-y-1/2 text-concrete hover:text-theme-fg"
                         >
                             <X className="w-4 h-4" />
                         </button>
@@ -77,7 +77,7 @@ export function SearchPanel({ onFileSelect }: SearchPanelProps) {
                             <div
                                 key={idx}
                                 onClick={() => onFileSelect(result.file)}
-                                className="px-2 py-2 hover:bg-[#2a2d2e] cursor-pointer rounded transition-colors"
+                                className="px-2 py-2 hover:bg-concrete/10 cursor-pointer rounded transition-colors"
                             >
                                 <div className="flex items-center gap-2 mb-1">
                                     <span className="text-electric text-xs font-mono">{result.file}</span>

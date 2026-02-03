@@ -3,6 +3,7 @@
 import { TabBar } from './TabBar';
 import { ReadmeContent } from './content/ReadmeContent';
 import { ReadmePreview } from './content/ReadmePreview';
+import { AboutContent } from './content/AboutContent';
 import { ProjectsContent } from './content/ProjectsContent';
 import { SkillsContent } from './content/SkillsContent';
 import { ContactContent } from './content/ContactContent';
@@ -43,6 +44,8 @@ export function EditorArea({ tabs, activeTab, onTabChange, onTabClose }: EditorA
         switch (activeTab) {
             case 'README.md':
                 return <ReadmeContent />;
+            case 'about.tsx':
+                return <AboutContent />;
             case 'projects.tsx':
                 return <ProjectsContent />;
             case 'skills.tsx':
@@ -59,7 +62,7 @@ export function EditorArea({ tabs, activeTab, onTabChange, onTabClose }: EditorA
     };
 
     return (
-        <div className="flex-1 flex flex-col bg-[#1e1e1e] overflow-hidden">
+        <div className="flex-1 flex flex-col bg-theme-bg overflow-hidden">
             {tabs.length > 0 ? (
                 <>
                     <TabBar
@@ -72,12 +75,12 @@ export function EditorArea({ tabs, activeTab, onTabChange, onTabClose }: EditorA
 
                     {/* Preview toggle for markdown files */}
                     {activeTab.endsWith('.md') && (
-                        <div className="flex items-center gap-2 px-4 py-2 bg-[#252526] border-b border-[#3e3e42]">
+                        <div className="flex items-center gap-2 px-4 py-2 bg-theme-sidebar border-b border-theme-border">
                             <button
                                 onClick={() => togglePreview(activeTab)}
                                 className={`flex items-center gap-1 px-3 py-1 rounded text-xs transition-colors ${!isInPreview
-                                        ? 'bg-electric/20 text-electric'
-                                        : 'text-concrete hover:bg-[#3e3e42]'
+                                    ? 'bg-electric/20 text-electric'
+                                    : 'text-concrete hover:bg-concrete/10'
                                     }`}
                             >
                                 <Code className="w-3 h-3" />
@@ -86,8 +89,8 @@ export function EditorArea({ tabs, activeTab, onTabChange, onTabClose }: EditorA
                             <button
                                 onClick={() => togglePreview(activeTab)}
                                 className={`flex items-center gap-1 px-3 py-1 rounded text-xs transition-colors ${isInPreview
-                                        ? 'bg-electric/20 text-electric'
-                                        : 'text-concrete hover:bg-[#3e3e42]'
+                                    ? 'bg-electric/20 text-electric'
+                                    : 'text-concrete hover:bg-concrete/10'
                                     }`}
                             >
                                 <Eye className="w-3 h-3" />
@@ -111,7 +114,7 @@ function WelcomeScreen() {
     return (
         <div className="flex-1 flex items-center justify-center text-center p-8">
             <div>
-                <h1 className="text-4xl font-space-grotesk font-bold mb-4 text-paper">
+                <h1 className="text-4xl font-space-grotesk font-bold mb-4 text-theme-fg">
                     Welcome to Arif's Portfolio
                 </h1>
                 <p className="text-concrete mb-6">
@@ -138,19 +141,19 @@ function PackageJsonContent() {
                 <div className="flex-1">
                     <div className="text-concrete">{'{'}</div>
                     <div className="ml-4">
-                        <div><span className="text-green-400">"name"</span><span>: </span><span className="text-orange-400">"arif-aygun"</span>,</div>
-                        <div><span className="text-green-400">"version"</span><span>: </span><span className="text-orange-400">"1.0.0"</span>,</div>
-                        <div><span className="text-green-400">"description"</span><span>: </span><span className="text-orange-400">"Full Stack Developer Portfolio"</span>,</div>
-                        <div><span className="text-green-400">"author"</span><span>: </span><span className="text-orange-400">"Arif Aygun"</span>,</div>
-                        <div className="mt-2"><span className="text-green-400">"skills"</span><span>: [</span></div>
+                        <div><span className="syntax-variable">"name"</span><span>: </span><span className="syntax-string">"arif-aygun"</span>,</div>
+                        <div><span className="syntax-variable">"version"</span><span>: </span><span className="syntax-string">"1.0.0"</span>,</div>
+                        <div><span className="syntax-variable">"description"</span><span>: </span><span className="syntax-string">"Full Stack Developer Portfolio"</span>,</div>
+                        <div><span className="syntax-variable">"author"</span><span>: </span><span className="syntax-string">"Arif Aygun"</span>,</div>
+                        <div className="mt-2"><span className="syntax-variable">"skills"</span><span>: [</span></div>
                         <div className="ml-4">
-                            <div><span className="text-orange-400">"Backend Development"</span>,</div>
-                            <div><span className="text-orange-400">"Blockchain"</span>,</div>
-                            <div><span className="text-orange-400">"System Design"</span>,</div>
-                            <div><span className="text-orange-400">"DevOps"</span></div>
+                            <div><span className="syntax-string">"Backend Development"</span>,</div>
+                            <div><span className="syntax-string">"Blockchain"</span>,</div>
+                            <div><span className="syntax-string">"System Design"</span>,</div>
+                            <div><span className="syntax-string">"DevOps"</span></div>
                         </div>
                         <div>],</div>
-                        <div className="mt-2"><span className="text-green-400">"education"</span><span>: </span><span className="text-orange-400">"GTU Computer Engineering"</span></div>
+                        <div className="mt-2"><span className="syntax-variable">"education"</span><span>: </span><span className="syntax-string">"GTU Computer Engineering"</span></div>
                     </div>
                     <div className="text-concrete">{'}'}</div>
                 </div>
@@ -158,3 +161,4 @@ function PackageJsonContent() {
         </div>
     );
 }
+

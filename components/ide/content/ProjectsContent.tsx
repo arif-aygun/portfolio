@@ -22,18 +22,18 @@ export function ProjectsContent() {
 
                 <div className="flex-1">
                     <div className="mb-6">
-                        <span className="text-purple-400">import</span>{' '}
-                        <span className="text-yellow-400">{'{ Project }'}</span>{' '}
-                        <span className="text-purple-400">from</span>{' '}
-                        <span className="text-green-400">'@/types'</span>
+                        <span className="syntax-keyword">import</span>{' '}
+                        <span className="syntax-function">{'{ Project }'}</span>{' '}
+                        <span className="syntax-keyword">from</span>{' '}
+                        <span className="syntax-string">'@/types'</span>
                         <span className="text-concrete">;</span>
                     </div>
 
                     <div className="mb-4">
-                        <span className="text-purple-400">export const</span>{' '}
-                        <span className="text-yellow-400">projects</span>
+                        <span className="syntax-keyword">export const</span>{' '}
+                        <span className="syntax-function">projects</span>
                         <span className="text-concrete">: </span>
-                        <span className="text-blue-400">Project[]</span>
+                        <span className="syntax-type">Project[]</span>
                         <span className="text-concrete"> = [</span>
                     </div>
 
@@ -42,35 +42,35 @@ export function ProjectsContent() {
                             <div className="text-concrete mb-2">{'{'}</div>
                             <div className="ml-4">
                                 <div className="mb-1">
-                                    <span className="text-green-400">title</span>
+                                    <span className="syntax-variable">title</span>
                                     <span className="text-concrete">: </span>
-                                    <span className="text-orange-400">"{project.title}"</span>
+                                    <span className="syntax-string">"{project.title}"</span>
                                     <span className="text-concrete">,</span>
                                 </div>
                                 <div className="mb-1">
-                                    <span className="text-green-400">description</span>
+                                    <span className="syntax-variable">description</span>
                                     <span className="text-concrete">: </span>
-                                    <span className="text-orange-400">"{project.desc}"</span>
+                                    <span className="syntax-string">"{project.desc}"</span>
                                     <span className="text-concrete">,</span>
                                 </div>
                                 <div className="mb-1">
-                                    <span className="text-green-400">stack</span>
+                                    <span className="syntax-variable">stack</span>
                                     <span className="text-concrete">: [</span>
                                     {project.tags.map((tag, i) => (
                                         <span key={i}>
-                                            <span className="text-orange-400">'{tag}'</span>
+                                            <span className="syntax-string">'{tag}'</span>
                                             {i < project.tags.length - 1 && <span className="text-concrete">, </span>}
                                         </span>
                                     ))}
                                     <span className="text-concrete">],</span>
                                 </div>
                                 <div className="flex items-center gap-2">
-                                    <span className="text-green-400">link</span>
+                                    <span className="syntax-variable">link</span>
                                     <span className="text-concrete">: </span>
                                     <a
                                         href={project.href}
                                         target="_blank"
-                                        className="text-blue-400 hover:underline inline-flex items-center gap-1"
+                                        className="syntax-type hover:underline inline-flex items-center gap-1"
                                     >
                                         "{project.href.replace('https://', '')}"
                                         <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -88,8 +88,8 @@ export function ProjectsContent() {
                     <div className="text-concrete mb-4">];</div>
 
                     <div className="mb-4">
-                        <span className="text-purple-400">export default</span>{' '}
-                        <span className="text-yellow-400">projects</span>
+                        <span className="syntax-keyword">export default</span>{' '}
+                        <span className="syntax-function">projects</span>
                         <span className="text-concrete">;</span>
                     </div>
                 </div>
@@ -97,3 +97,4 @@ export function ProjectsContent() {
         </div>
     );
 }
+

@@ -80,7 +80,7 @@ export default function Home() {
   });
 
   return (
-    <div className={`h-screen flex flex-col bg-[#1e1e1e] text-paper overflow-hidden ${isMobile ? 'pb-14' : ''}`}>
+    <div className={`h-screen flex flex-col bg-theme-bg text-theme-fg overflow-hidden ${isMobile ? 'pb-14' : ''}`}>
       {/* Quick File Opener Modal */}
       <QuickFileOpener
         isOpen={quickFileOpen}

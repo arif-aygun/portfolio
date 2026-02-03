@@ -40,7 +40,7 @@ export function SkillsContent() {
 
                 <div className="flex-1">
                     <div className="mb-6">
-                        <span className="text-gray-500">{'// Technical Skills & Technologies'}</span>
+                        <span className="syntax-comment">{'// Technical Skills & Technologies'}</span>
                     </div>
 
                     {categories.map((category, catIdx) => {
@@ -50,17 +50,17 @@ export function SkillsContent() {
                         return (
                             <div key={category} className="mb-6">
                                 <div className="mb-2">
-                                    <span className="text-purple-400">import</span>{' '}
+                                    <span className="syntax-keyword">import</span>{' '}
                                     <span className="text-concrete">{'{ '}</span>
                                     {categorySkills.map((skill, idx) => (
                                         <span key={skill.name}>
-                                            <span className="text-yellow-400">{skill.name.replace(/[.\s]/g, '')}</span>
+                                            <span className="syntax-function">{skill.name.replace(/[.\s]/g, '')}</span>
                                             {idx < categorySkills.length - 1 && <span className="text-concrete">, </span>}
                                         </span>
                                     ))}
                                     <span className="text-concrete">{' }'}</span>
-                                    <span className="text-purple-400"> from</span>{' '}
-                                    <span className="text-green-400">'{category}'</span>
+                                    <span className="syntax-keyword"> from</span>{' '}
+                                    <span className="syntax-string">'{category}'</span>
                                     <span className="text-concrete">;</span>
                                 </div>
 
@@ -71,7 +71,7 @@ export function SkillsContent() {
                                             className="flex items-center gap-2 px-3 py-1.5 bg-electric/10 border border-electric/20 rounded hover:bg-electric/20 transition-colors"
                                         >
                                             <skill.icon className="w-4 h-4 text-electric" />
-                                            <span className="text-paper text-xs">{skill.name}</span>
+                                            <span className="text-theme-fg text-xs">{skill.name}</span>
                                         </div>
                                     ))}
                                 </div>
@@ -80,11 +80,11 @@ export function SkillsContent() {
                     })}
 
                     <div className="mt-8 pt-4 border-t border-white/5">
-                        <span className="text-purple-400">export default</span>{' '}
+                        <span className="syntax-keyword">export default</span>{' '}
                         <span className="text-concrete">{'{ '}</span>
                         {categories.map((cat, idx) => (
                             <span key={cat}>
-                                <span className="text-yellow-400">{cat}</span>
+                                <span className="syntax-variable">{cat}</span>
                                 {idx < categories.length - 1 && <span className="text-concrete">, </span>}
                             </span>
                         ))}

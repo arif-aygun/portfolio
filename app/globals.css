@@ -7,6 +7,22 @@
   --acid: #ccff00;
   --electric: #2563eb;
   --concrete: #808080;
+  
+  /* Theme colors - default (GitHub Dark) */
+  --theme-bg: #0d1117;
+  --theme-fg: #c9d1d9;
+  --theme-activity-bar: #0d1117;
+  --theme-sidebar: #010409;
+  --theme-border: #30363d;
+  
+  /* Syntax (GitHub Dark) */
+  --theme-comment: #8b949e;
+  --theme-keyword: #ff7b72;
+  --theme-string: #a5d6ff;
+  --theme-number: #79c0ff;
+  --theme-function: #d2a8ff;
+  --theme-variable: #ffa657;
+  --theme-type: #7ee787;
 }
 
 @theme inline {
@@ -17,37 +33,30 @@
   --color-concrete: var(--concrete);
   --font-space-grotesk: var(--font-space-grotesk);
   --font-inter: var(--font-inter);
+  
+  /* Expose theme colors to Tailwind */
+  --color-theme-bg: var(--theme-bg);
+  --color-theme-fg: var(--theme-fg);
+  --color-theme-activity-bar: var(--theme-activity-bar);
+  --color-theme-sidebar: var(--theme-sidebar);
+  --color-theme-border: var(--theme-border);
+  
+  --color-theme-comment: var(--theme-comment);
+  --color-theme-keyword: var(--theme-keyword);
+  --color-theme-string: var(--theme-string);
+  --color-theme-number: var(--theme-number);
+  --color-theme-function: var(--theme-function);
+  --color-theme-variable: var(--theme-variable);
+  --color-theme-type: var(--theme-type);
 }
 
-
 body {
-  background-color: var(--void);
-  color: var(--paper);
+  background-color: var(--theme-bg);
+  color: var(--theme-fg);
   font-family: var(--font-inter), sans-serif;
   overflow-x: hidden;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
-
-
-/* Light theme */
-[data-theme="light"] {
-  --void: #f8f9fa;
-  --paper: #0a0a0a;
-  --acid: #84cc16;
-  --electric: #2563eb;
-  --concrete: #6b7280;
-}
-
-[data-theme="light"] body {
-  background-color: #f8f9fa;
-  color: #0a0a0a;
-}
-
-[data-theme="light"] .selection\:bg-acid::selection {
-  background-color: #84cc16;
-  color: #0a0a0a;
-}
-
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-space-grotesk), sans-serif;
@@ -78,6 +87,15 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* Utilities */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 .mix-diff {
   mix-blend-mode: difference;
 }
@@ -88,6 +106,41 @@ h1, h2, h3, h4, h5, h6 {
   color: transparent;
   background-size: cover;
   background-position: center;
+}
+
+/* Selection */
+::selection {
+  background-color: var(--acid);
+  color: var(--void);
+}
+
+/* Syntax Highlighting Classes - Auto-update with theme */
+.syntax-comment {
+  color: var(--theme-comment);
+}
+
+.syntax-keyword {
+  color: var(--theme-keyword);
+}
+
+.syntax-string {
+  color: var(--theme-string);
+}
+
+.syntax-number {
+  color: var(--theme-number);
+}
+
+.syntax-function {
+  color: var(--theme-function);
+}
+
+.syntax-variable {
+  color: var(--theme-variable);
+}
+
+.syntax-type {
+  color: var(--theme-type);
 }
 
 /* Lenis Recommended Styles */

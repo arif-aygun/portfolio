@@ -1,7 +1,6 @@
 'use client';
 
-import { Files, Search, Settings, Sun, Moon } from 'lucide-react';
-import { useTheme } from '@/components/theme-provider';
+import { Files, Search, Settings } from 'lucide-react';
 import { useIsMobile } from '@/hooks/useMediaQuery';
 
 interface ActivityBarProps {
@@ -12,7 +11,6 @@ interface ActivityBarProps {
 }
 
 export function ActivityBar({ activeView, onViewChange, sidebarVisible, onToggleSidebar }: ActivityBarProps) {
-    const { theme, toggleTheme } = useTheme();
     const isMobile = useIsMobile();
 
     const activities = [
@@ -37,13 +35,13 @@ export function ActivityBar({ activeView, onViewChange, sidebarVisible, onToggle
     if (isMobile) {
         // Mobile: Bottom navigation bar
         return (
-            <div className="fixed bottom-0 left-0 right-0 h-14 bg-[#333333] border-t border-[#3e3e42] flex items-center justify-around px-2 z-40">
+            <div className="fixed bottom-0 left-0 right-0 h-14 bg-theme-activity-bar border-t border-theme-border flex items-center justify-around px-2 z-40">
                 {/* Activity icons */}
                 {activities.map((activity) => (
                     <button
                         key={activity.id}
                         onClick={() => handleActivityClick(activity.id)}
-                        className={`p-3 hover:bg-[#2a2d2e] rounded transition-colors relative ${activeView === activity.id && sidebarVisible ? 'text-paper' : 'text-concrete'
+                        className={`p-3 hover:bg-concrete/10 rounded transition-colors relative ${activeView === activity.id && sidebarVisible ? 'text-theme-fg' : 'text-concrete'
                             }`}
                         aria-label={activity.label}
                     >
@@ -53,33 +51,20 @@ export function ActivityBar({ activeView, onViewChange, sidebarVisible, onToggle
                         )}
                     </button>
                 ))}
-
-                {/* Theme toggle */}
-                <button
-                    onClick={toggleTheme}
-                    className="p-3 hover:bg-[#2a2d2e] rounded transition-colors text-concrete active:bg-[#3e3e42]"
-                    aria-label="Toggle Theme"
-                >
-                    {theme === 'dark' ? (
-                        <Sun className="w-5 h-5" />
-                    ) : (
-                        <Moon className="w-5 h-5" />
-                    )}
-                </button>
             </div>
         );
     }
 
     // Desktop: Vertical sidebar
     return (
-        <div className="w-12 bg-[#333333] flex flex-col items-center py-4 border-r border-[#3e3e42]">
+        <div className="w-12 bg-theme-activity-bar flex flex-col items-center py-4 border-r border-theme-border">
             {/* Activity Icons */}
             <div className="flex-1 flex flex-col gap-4">
                 {activities.map((activity) => (
                     <button
                         key={activity.id}
                         onClick={() => handleActivityClick(activity.id)}
-                        className={`p-2 hover:bg-[#2a2d2e] rounded transition-colors relative group ${activeView === activity.id && sidebarVisible ? 'text-paper' : 'text-concrete'
+                        className={`p-2 hover:bg-concrete/10 rounded transition-colors relative group ${activeView === activity.id && sidebarVisible ? 'text-theme-fg' : 'text-concrete'
                             }`}
                         title={activity.label}
                     >
@@ -90,19 +75,6 @@ export function ActivityBar({ activeView, onViewChange, sidebarVisible, onToggle
                     </button>
                 ))}
             </div>
-
-            {/* Theme Toggle */}
-            <button
-                onClick={toggleTheme}
-                className="p-2 hover:bg-[#2a2d2e] rounded transition-colors text-concrete"
-                title="Toggle Theme"
-            >
-                {theme === 'dark' ? (
-                    <Sun className="w-6 h-6" />
-                ) : (
-                    <Moon className="w-6 h-6" />
-                )}
-            </button>
         </div>
     );
 }

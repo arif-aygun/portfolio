@@ -14,29 +14,29 @@ export function ContactContent() {
 
                 <div className="flex-1">
                     <div className="mb-6">
-                        <span className="text-purple-400">import</span>{' '}
+                        <span className="syntax-keyword">import</span>{' '}
                         <span className="text-concrete">{'{ '}</span>
-                        <span className="text-yellow-400">ContactInfo</span>
+                        <span className="syntax-function">ContactInfo</span>
                         <span className="text-concrete">{' }'}</span>{' '}
-                        <span className="text-purple-400">from</span>{' '}
-                        <span className="text-green-400">'@/types'</span>
+                        <span className="syntax-keyword">from</span>{' '}
+                        <span className="syntax-string">'@/types'</span>
                         <span className="text-concrete">;</span>
                     </div>
 
                     <div className="mb-4">
-                        <span className="text-purple-400">const</span>{' '}
-                        <span className="text-yellow-400">contact</span>
+                        <span className="syntax-keyword">const</span>{' '}
+                        <span className="syntax-function">contact</span>
                         <span className="text-concrete">: </span>
-                        <span className="text-blue-400">ContactInfo</span>
+                        <span className="syntax-type">ContactInfo</span>
                         <span className="text-concrete"> = {'{'}</span>
                     </div>
 
                     <div className="ml-4 mb-6">
                         <div className="mb-3">
                             <div className="mb-1">
-                                <span className="text-green-400">email</span>
+                                <span className="syntax-variable">email</span>
                                 <span className="text-concrete">: </span>
-                                <a href="mailto:araygun48@gmail.com" className="text-orange-400 hover:underline">
+                                <a href="mailto:araygun48@gmail.com" className="syntax-string hover:underline">
                                     "araygun48@gmail.com"
                                 </a>
                                 <span className="text-concrete">,</span>
@@ -45,9 +45,9 @@ export function ContactContent() {
 
                         <div className="mb-3">
                             <div className="mb-1">
-                                <span className="text-green-400">github</span>
+                                <span className="syntax-variable">github</span>
                                 <span className="text-concrete">: </span>
-                                <a href="https://github.com/arif-aygun" target="_blank" className="text-orange-400 hover:underline">
+                                <a href="https://github.com/arif-aygun" target="_blank" className="syntax-string hover:underline">
                                     "github.com/arif-aygun"
                                 </a>
                                 <span className="text-concrete">,</span>
@@ -56,9 +56,9 @@ export function ContactContent() {
 
                         <div className="mb-3">
                             <div className="mb-1">
-                                <span className="text-green-400">linkedin</span>
+                                <span className="syntax-variable">linkedin</span>
                                 <span className="text-concrete">: </span>
-                                <a href="https://linkedin.com/in/ahmetarifaygun" target="_blank" className="text-orange-400 hover:underline">
+                                <a href="https://linkedin.com/in/ahmetarifaygun" target="_blank" className="syntax-string hover:underline">
                                     "linkedin.com/in/ahmetarifaygun"
                                 </a>
                                 <span className="text-concrete">,</span>
@@ -70,7 +70,7 @@ export function ContactContent() {
 
                     <div className="mt-8 p-6 border border-electric/20 rounded bg-electric/5">
                         <div className="mb-4">
-                            <span className="text-gray-500">{'// Quick Contact Links'}</span>
+                            <span className="syntax-comment">{'// Quick Contact Links'}</span>
                         </div>
                         <div className="flex flex-wrap gap-3">
                             <a
@@ -100,8 +100,8 @@ export function ContactContent() {
                     </div>
 
                     <div className="mt-6">
-                        <span className="text-purple-400">export default</span>{' '}
-                        <span className="text-yellow-400">contact</span>
+                        <span className="syntax-keyword">export default</span>{' '}
+                        <span className="syntax-function">contact</span>
                         <span className="text-concrete">;</span>
                     </div>
                 </div>

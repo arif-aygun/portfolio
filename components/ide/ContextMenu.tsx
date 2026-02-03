@@ -31,7 +31,7 @@ export function ContextMenu({ x, y, onClose, onOpenPreview, fileName }: ContextM
     return (
         <div
             ref={menuRef}
-            className="fixed bg-[#2d2d2d] border border-[#3e3e42] rounded shadow-lg py-1 z-50 min-w-[200px]"
+            className="fixed bg-theme-sidebar border border-theme-border rounded shadow-lg py-1 z-50 min-w-[200px]"
             style={{ left: `${x}px`, top: `${y}px` }}
         >
             {isMarkdown && (
@@ -40,7 +40,7 @@ export function ContextMenu({ x, y, onClose, onOpenPreview, fileName }: ContextM
                         onOpenPreview();
                         onClose();
                     }}
-                    className="w-full px-4 py-2 text-left text-sm text-paper hover:bg-[#094771] flex items-center gap-2"
+                    className="w-full px-4 py-2 text-left text-sm text-theme-fg hover:bg-[#094771] flex items-center gap-2"
                 >
                     <Eye className="w-4 h-4" />
                     Open Preview
@@ -48,7 +48,7 @@ export function ContextMenu({ x, y, onClose, onOpenPreview, fileName }: ContextM
             )}
             <button
                 onClick={onClose}
-                className="w-full px-4 py-2 text-left text-sm text-paper hover:bg-[#094771]"
+                className="w-full px-4 py-2 text-left text-sm text-theme-fg hover:bg-[#094771]"
             >
                 Close
             </button>

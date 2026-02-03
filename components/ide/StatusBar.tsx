@@ -4,7 +4,7 @@ import { GitBranch, Circle } from 'lucide-react';
 
 export function StatusBar() {
     return (
-        <div className="h-6 bg-[#007acc] flex items-center justify-between px-4 text-xs text-white">
+        <div className="h-6 bg-electric flex items-center justify-between px-4 text-xs text-white">
             <div className="flex items-center gap-4">
                 <div className="flex items-center gap-1">
                     <GitBranch className="w-3 h-3" />

@@ -15,7 +15,7 @@ export function ReadmeContent() {
 
                 <div className="flex-1">
                     <div className="mb-8">
-                        <h1 className="text-5xl font-space-grotesk font-bold mb-4 text-paper">
+                        <h1 className="text-5xl font-space-grotesk font-bold mb-4 text-theme-fg">
                             # Arif Aygun
                         </h1>
                         <h2 className="text-2xl text-electric mb-2">
@@ -50,7 +50,7 @@ export function ReadmeContent() {
                                 className="flex items-center gap-2 px-4 py-2 bg-electric/10 hover:bg-electric/20 border border-electric/30 rounded-lg transition-colors group"
                             >
                                 <Github className="w-4 h-4 text-electric" />
-                                <span className="text-paper">GitHub</span>
+                                <span className="text-theme-fg">GitHub</span>
                                 <ArrowUpRight className="w-3 h-3 text-electric opacity-0 group-hover:opacity-100 transition-opacity" />
                             </a>
                             <a
@@ -59,7 +59,7 @@ export function ReadmeContent() {
                                 className="flex items-center gap-2 px-4 py-2 bg-electric/10 hover:bg-electric/20 border border-electric/30 rounded-lg transition-colors group"
                             >
                                 <Linkedin className="w-4 h-4 text-electric" />
-                                <span className="text-paper">LinkedIn</span>
+                                <span className="text-theme-fg">LinkedIn</span>
                                 <ArrowUpRight className="w-3 h-3 text-electric opacity-0 group-hover:opacity-100 transition-opacity" />
                             </a>
                             <a
@@ -67,7 +67,7 @@ export function ReadmeContent() {
                                 className="flex items-center gap-2 px-4 py-2 bg-electric/10 hover:bg-electric/20 border border-electric/30 rounded-lg transition-colors group"
                             >
                                 <Mail className="w-4 h-4 text-electric" />
-                                <span className="text-paper">Email</span>
+                                <span className="text-theme-fg">Email</span>
                                 <ArrowUpRight className="w-3 h-3 text-electric opacity-0 group-hover:opacity-100 transition-opacity" />
                             </a>
                         </div>

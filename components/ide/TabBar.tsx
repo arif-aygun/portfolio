@@ -31,15 +31,15 @@ export function TabBar({ tabs, activeTab, onTabChange, onTabClose, onOpenPreview
 
     return (
         <>
-            <div className="flex items-center bg-[#2d2d2d] border-b border-[#3e3e42] overflow-x-auto">
+            <div className="flex items-center bg-theme-sidebar border-b border-theme-border overflow-x-auto">
                 {tabs.map((tab) => (
                     <div
                         key={tab.name}
                         onClick={() => onTabChange(tab.name)}
                         onContextMenu={(e) => handleContextMenu(e, tab.name)}
-                        className={`group flex items-center gap-2 px-4 py-2 border-r border-[#3e3e42] cursor-pointer min-w-fit relative ${activeTab === tab.name
-                                ? 'bg-[#1e1e1e] text-paper'
-                                : 'bg-[#2d2d2d] text-concrete hover:bg-[#1e1e1e]/50'
+                        className={`group flex items-center gap-2 px-4 py-2 border-r border-theme-border cursor-pointer min-w-fit relative ${activeTab === tab.name
+                                ? 'bg-theme-bg text-theme-fg'
+                                : 'bg-theme-sidebar text-concrete hover:bg-theme-bg/50'
                             }`}
                     >
                         {activeTab === tab.name && (
@@ -52,7 +52,7 @@ export function TabBar({ tabs, activeTab, onTabChange, onTabClose, onOpenPreview
                                 e.stopPropagation();
                                 onTabClose(tab.name);
                             }}
-                            className="opacity-0 group-hover:opacity-100 hover:bg-[#3e3e42] rounded p-0.5 transition-opacity"
+                            className="opacity-0 group-hover:opacity-100 hover:bg-concrete/10 rounded p-0.5 transition-opacity"
                         >
                             <X className="w-3 h-3" />
                         </button>

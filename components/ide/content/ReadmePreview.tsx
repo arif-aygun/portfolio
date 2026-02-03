@@ -5,7 +5,7 @@ import { Github, Linkedin, Mail, ArrowUpRight } from 'lucide-react';
 export function ReadmePreview() {
     return (
         <div className="p-8 max-w-4xl prose prose-invert">
-            <h1 className="text-5xl font-space-grotesk font-bold mb-4 text-paper border-b border-electric/20 pb-4">
+            <h1 className="text-5xl font-space-grotesk font-bold mb-4 text-theme-fg border-b border-electric/20 pb-4">
                 Arif Aygun
             </h1>
 
@@ -14,9 +14,9 @@ export function ReadmePreview() {
             </h2>
 
             <p className="text-concrete text-lg leading-relaxed mb-6">
-                Computer Engineering student at GTU specializing in <strong className="text-paper">Backend Infrastructure</strong>,{' '}
-                <strong className="text-paper">Decentralized Systems</strong>, and{' '}
-                <strong className="text-paper">Interactive Experiences</strong>.
+                Computer Engineering student at GTU specializing in <strong className="text-theme-fg">Backend Infrastructure</strong>,{' '}
+                <strong className="text-theme-fg">Decentralized Systems</strong>, and{' '}
+                <strong className="text-theme-fg">Interactive Experiences</strong>.
                 Building scalable solutions with modern technologies.
             </p>
 
@@ -46,7 +46,7 @@ export function ReadmePreview() {
                     className="flex items-center gap-2 px-4 py-2 bg-electric/20 hover:bg-electric/30 border border-electric/40 rounded-lg transition-colors group"
                 >
                     <Github className="w-5 h-5 text-electric" />
-                    <span className="text-paper font-medium">GitHub</span>
+                    <span className="text-theme-fg font-medium">GitHub</span>
                     <ArrowUpRight className="w-4 h-4 text-electric opacity-0 group-hover:opacity-100 transition-opacity" />
                 </a>
 
@@ -56,7 +56,7 @@ export function ReadmePreview() {
                     className="flex items-center gap-2 px-4 py-2 bg-electric/20 hover:bg-electric/30 border border-electric/40 rounded-lg transition-colors group"
                 >
                     <Linkedin className="w-5 h-5 text-electric" />
-                    <span className="text-paper font-medium">LinkedIn</span>
+                    <span className="text-theme-fg font-medium">LinkedIn</span>
                     <ArrowUpRight className="w-4 h-4 text-electric opacity-0 group-hover:opacity-100 transition-opacity" />
                 </a>
 
@@ -65,7 +65,7 @@ export function ReadmePreview() {
                     className="flex items-center gap-2 px-4 py-2 bg-electric/20 hover:bg-electric/30 border border-electric/40 rounded-lg transition-colors group"
                 >
                     <Mail className="w-5 h-5 text-electric" />
-                    <span className="text-paper font-medium">Email</span>
+                    <span className="text-theme-fg font-medium">Email</span>
                     <ArrowUpRight className="w-4 h-4 text-electric opacity-0 group-hover:opacity-100 transition-opacity" />
                 </a>
             </div>

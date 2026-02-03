@@ -65,7 +65,7 @@ export function Sidebar({ onFileSelect, activeFile, isOpen, onClose }: SidebarPr
                 <div key={node.name}>
                     <div
                         onClick={() => toggleFolder(node.name)}
-                        className="flex items-center gap-1 px-2 py-1 hover:bg-[#2a2d2e] cursor-pointer select-none text-sm active:bg-[#3e3e42]"
+                        className="flex items-center gap-1 px-2 py-1 hover:bg-concrete/10 cursor-pointer select-none text-sm active:bg-concrete/20"
                         style={{ paddingLeft: `${level * 12 + 8}px` }}
                     >
                         {isExpanded ? (
@@ -89,12 +89,12 @@ export function Sidebar({ onFileSelect, activeFile, isOpen, onClose }: SidebarPr
             <div
                 key={node.name}
                 onClick={() => handleFileSelect(node.name)}
-                className={`flex items-center gap-2 px-2 py-1 hover:bg-[#2a2d2e] cursor-pointer select-none text-sm active:bg-[#3e3e42] ${isActive ? 'bg-[#37373d]' : ''
+                className={`flex items-center gap-2 px-2 py-1 hover:bg-concrete/10 cursor-pointer select-none text-sm active:bg-concrete/20 ${isActive ? 'bg-concrete/10' : ''
                     }`}
                 style={{ paddingLeft: `${level * 12 + 24}px` }}
             >
                 <span>{node.icon}</span>
-                <span className={`text-concrete ${isActive ? 'text-paper' : ''}`}>{node.name}</span>
+                <span className={`text-concrete ${isActive ? 'text-theme-fg' : ''}`}>{node.name}</span>
             </div>
         );
     };
@@ -113,16 +113,16 @@ export function Sidebar({ onFileSelect, activeFile, isOpen, onClose }: SidebarPr
 
                 {/* Drawer */}
                 <div
-                    className={`fixed top-0 left-0 bottom-14 w-72 bg-[#252526] border-r border-[#3e3e42] z-40 transform transition-transform duration-300 ${isOpen ? 'translate-x-0' : '-translate-x-full'
+                    className={`fixed top-0 left-0 bottom-14 w-72 bg-theme-sidebar border-r border-theme-border z-40 transform transition-transform duration-300 ${isOpen ? 'translate-x-0' : '-translate-x-full'
                         }`}
                 >
-                    <div className="flex items-center justify-between px-4 py-3 border-b border-[#3e3e42]">
+                    <div className="flex items-center justify-between px-4 py-3 border-b border-theme-border">
                         <div className="text-xs uppercase tracking-wider text-concrete/70 font-semibold">
                             Explorer
                         </div>
                         <button
                             onClick={onClose}
-                            className="p-1 hover:bg-[#2a2d2e] rounded transition-colors text-concrete"
+                            className="p-1 hover:bg-concrete/10 rounded transition-colors text-concrete"
                         >
                             <X className="w-5 h-5" />
                         </button>
@@ -137,7 +137,7 @@ export function Sidebar({ onFileSelect, activeFile, isOpen, onClose }: SidebarPr
 
     // Desktop: Static sidebar
     return (
-        <div className="w-64 bg-[#252526] border-r border-[#3e3e42] h-full overflow-y-auto">
+        <div className="w-64 bg-theme-sidebar border-r border-theme-border h-full overflow-y-auto">
             <div className="px-4 py-2 text-xs uppercase tracking-wider text-concrete/70 font-semibold">
                 Explorer
             </div>
