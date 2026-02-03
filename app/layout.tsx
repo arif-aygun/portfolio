@@ -33,9 +33,7 @@ export default function RootLayout({
         className={`${inter.variable} ${spaceGrotesk.variable} antialiased bg-void text-paper selection:bg-acid selection:text-void`}
       >
         <ThemeProvider>
-          <ReactLenis root>
-            {children}
-          </ReactLenis>
+          {children}
         </ThemeProvider>
       </body>
     </html>
