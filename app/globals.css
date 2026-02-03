@@ -19,17 +19,15 @@
   --font-inter: var(--font-inter);
 }
 
-/* Theme transitions */
-* {
-  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-}
 
 body {
   background-color: var(--void);
   color: var(--paper);
   font-family: var(--font-inter), sans-serif;
   overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
+
 
 /* Light theme */
 [data-theme="light"] {
@@ -50,12 +48,6 @@ body {
   color: #0a0a0a;
 }
 
-/* Desktop only cursor */
-@media (min-width: 768px) {
-  body {
-    cursor: none;
-  }
-}
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-space-grotesk), sans-serif;
@@ -83,30 +75,6 @@ h1, h2, h3, h4, h5, h6 {
 .text-stroke-paper {
   -webkit-text-stroke: 1px var(--paper);
   paint-order: stroke fill;
-}
-
-/* Custom Cursor */
-.custom-cursor {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 20px;
-  height: 20px;
-  background: var(--paper);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 9999;
-  mix-blend-mode: difference;
-  transform: translate(-50%, -50%);
-  transition: width 0.3s, height 0.3s, background-color 0.3s;
-}
-
-.custom-cursor.hovered {
-  width: 80px;
-  height: 80px;
-  background: var(--acid);
-  mix-blend-mode: normal;
-  opacity: 0.5;
 }
 
 /* Utilities */
