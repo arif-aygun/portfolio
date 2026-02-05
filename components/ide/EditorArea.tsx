@@ -23,7 +23,9 @@ interface EditorAreaProps {
 }
 
 export function EditorArea({ tabs, activeTab, onTabChange, onTabClose }: EditorAreaProps) {
-    const [previewMode, setPreviewMode] = useState<{ [key: string]: boolean }>({});
+    const [previewMode, setPreviewMode] = useState<{ [key: string]: boolean }>({
+        'README.md': true
+    });
 
     const handleOpenPreview = (tabName: string) => {
         setPreviewMode({ ...previewMode, [tabName]: true });
