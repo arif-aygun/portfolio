@@ -10,7 +10,7 @@ interface TerminalProps {
 export function Terminal({ onNavigate }: TerminalProps) {
     const [input, setInput] = useState('');
     const [history, setHistory] = useState<string[]>(['Welcome to Portfolio Shell v1.0.0', 'Type "help" for available commands.']);
-    const [isOpen, setIsOpen] = useState(true);
+    const [isOpen, setIsOpen] = useState(false);
     const bottomRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {

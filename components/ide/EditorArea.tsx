@@ -1,9 +1,7 @@
 'use client';
 
 import { TabBar } from './TabBar';
-import { Breadcrumbs } from './Breadcrumbs';
 import { Terminal } from './Terminal';
-import { Minimap } from './Minimap';
 import { ReadmeContent } from './content/ReadmeContent';
 import { ReadmePreview } from './content/ReadmePreview';
 import { AboutContent } from './content/AboutContent';
@@ -78,7 +76,7 @@ export function EditorArea({ tabs, activeTab, onTabChange, onTabClose }: EditorA
                         onOpenPreview={handleOpenPreview}
                     />
 
-                    <Breadcrumbs path={['src', activeTab]} />
+
 
                     {/* Preview toggle for markdown files */}
                     {activeTab.endsWith('.md') && (
@@ -107,14 +105,7 @@ export function EditorArea({ tabs, activeTab, onTabChange, onTabClose }: EditorA
                     )}
 
                     <div className="flex-1 overflow-y-auto relative">
-                        <div className="flex min-h-full">
-                            <div className="flex-1 pb-10">
-                                {renderContent()}
-                            </div>
-                            <div className="sticky top-0 h-screen shrink-0 self-start">
-                                <Minimap />
-                            </div>
-                        </div>
+                        {renderContent()}
                     </div>
 
                     <Terminal onNavigate={onTabChange} />
