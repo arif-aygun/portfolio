@@ -8,6 +8,7 @@ interface KeyboardShortcutsProps {
   onFocusSearch: () => void;
   onNextTab: () => void;
   onPreviousTab: () => void;
+  onOpenCommandPalette: () => void;
 }
 
 export function useKeyboardShortcuts({
@@ -16,10 +17,18 @@ export function useKeyboardShortcuts({
   onFocusSearch,
   onNextTab,
   onPreviousTab,
+  onOpenCommandPalette,
 }: KeyboardShortcutsProps) {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       const isCtrl = e.ctrlKey || e.metaKey; // Support both Ctrl and Cmd (Mac)
+
+      // Ctrl+Shift+P - Command Palette (VS Code standard)
+      if (isCtrl && e.shiftKey && (e.key === 'p' || e.key === 'P')) {
+        e.preventDefault();
+        onOpenCommandPalette();
+        return;
+      }
 
       // Ctrl+B - Toggle Sidebar (VS Code standard)
       if (isCtrl && e.key === 'b' && !e.shiftKey && !e.altKey) {

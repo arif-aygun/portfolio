@@ -10,6 +10,9 @@ import { StatusBar } from '@/components/ide/StatusBar';
 import { QuickFileOpener } from '@/components/ide/QuickFileOpener';
 import { useKeyboardShortcuts } from '@/hooks/useKeyboardShortcuts';
 import { useIsMobile } from '@/hooks/useMediaQuery';
+import { CommandPalette } from '@/components/ide/CommandPalette';
+import { useTheme } from '@/components/theme-provider';
+import { useRouter } from 'next/navigation';
 
 interface Tab {
   name: string;
@@ -31,7 +34,10 @@ export default function Home() {
   const [activeTab, setActiveTab] = useState('');
   const [sidebarVisible, setSidebarVisible] = useState(true);
   const [quickFileOpen, setQuickFileOpen] = useState(false);
+  const [commandPaletteOpen, setCommandPaletteOpen] = useState(false);
   const isMobile = useIsMobile();
+  const { setTheme, theme } = useTheme();
+  const router = useRouter();
 
   const handleFileSelect = (fileName: string) => {
     // Check if tab already exists
@@ -77,7 +83,19 @@ export default function Home() {
     onFocusSearch: () => setActiveView('search'),
     onNextTab: handleNextTab,
     onPreviousTab: handlePreviousTab,
+    onOpenCommandPalette: () => setCommandPaletteOpen(true),
   });
+
+  const commands = [
+    { id: '1', label: 'Toggle Sidebar', shortcut: 'Ctrl+B', action: () => setSidebarVisible(!sidebarVisible) },
+    { id: '2', label: 'Go to File...', shortcut: 'Ctrl+P', action: () => setQuickFileOpen(true) },
+    { id: '3', label: 'Search in Files', shortcut: 'Ctrl+Shift+F', action: () => setActiveView('search') },
+    { id: '4', label: 'Toggle Theme', action: () => setTheme(theme === 'dracula' ? 'github-light' : 'dracula') },
+    { id: '5', label: 'Close Active Tab', action: () => handleTabClose(activeTab) },
+    { id: '6', label: 'Close All Tabs', action: () => setTabs([]) },
+    { id: '7', label: 'View: Explorer', action: () => setActiveView('explorer') },
+    { id: '8', label: 'View: Settings', action: () => setActiveView('settings') },
+  ];
 
   return (
     <div className={`h-screen flex flex-col bg-theme-bg text-theme-fg overflow-hidden ${isMobile ? 'pb-14' : ''}`}>
@@ -86,6 +104,13 @@ export default function Home() {
         isOpen={quickFileOpen}
         onClose={() => setQuickFileOpen(false)}
         onFileSelect={handleFileSelect}
+      />
+
+      {/* Command Palette */}
+      <CommandPalette
+        isOpen={commandPaletteOpen}
+        onClose={() => setCommandPaletteOpen(false)}
+        actions={commands}
       />
 
       {/* Main IDE Layout */}
@@ -126,7 +151,17 @@ export default function Home() {
       </div>
 
       {/* Status Bar - Desktop only */}
-      {!isMobile && <StatusBar />}
+      {!isMobile && (
+        <StatusBar
+          activeFile={activeTab}
+          language={
+            activeTab.endsWith('.md') ? 'Markdown' :
+              activeTab.endsWith('.json') ? 'JSON' :
+                activeTab.endsWith('.css') ? 'CSS' :
+                  'TypeScript JSX'
+          }
+        />
+      )}
 
       {/* Activity Bar - Mobile (bottom navigation) */}
       {isMobile && (
