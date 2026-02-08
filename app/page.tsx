@@ -371,7 +371,7 @@ export default function Home() {
       </div>
       <footer className="mt-32 pb-12 text-center">
         <p className="font-mono text-zinc-600 text-sm">
-          Designed & Built by <span className="text-zinc-400">Arif</span> & <span className="text-zinc-400">AI</span>
+          Designed & Built by <span className="text-zinc-400">Arif</span>
         </p>
         <p className="font-mono text-zinc-700 text-xs mt-2">
           © {new Date().getFullYear()}
