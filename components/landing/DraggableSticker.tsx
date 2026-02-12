@@ -1,6 +1,6 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, useMotionValue } from 'framer-motion';
 import { ArrowUpRight, Terminal, Cpu, Braces, Globe, Monitor, Server } from 'lucide-react';
 import { useState, useRef } from 'react';
 
@@ -109,6 +109,10 @@ export function DraggableSticker({
     const isDragging = useRef(false);
     const style = STICKER_STYLES[project.category] || DEFAULT_STYLE;
 
+    // Use motion values to track position independently of renders
+    const x = useMotionValue(initialX);
+    const y = useMotionValue(initialY);
+
     return (
         <motion.div
             drag
@@ -117,9 +121,8 @@ export function DraggableSticker({
             onDragEnd={() => {
                 setTimeout(() => { isDragging.current = false; }, 0);
             }}
+            style={{ x, y, touchAction: 'none', zIndex }} // Bind x, y here
             initial={{
-                x: initialX,
-                y: initialY,
                 rotate: initialRotate,
                 scale: 0.8,
                 opacity: 0
@@ -127,7 +130,7 @@ export function DraggableSticker({
             animate={{
                 scale: isExpanded ? 1.08 : 1,
                 opacity: 1,
-                zIndex: zIndex
+                // zIndex: zIndex // zIndex is now in style prop
             }}
             whileHover={{ scale: isExpanded ? 1.12 : 1.04, cursor: 'grab' }}
             whileDrag={{ scale: 1.08, cursor: 'grabbing', userSelect: 'none' }}
@@ -139,7 +142,6 @@ export function DraggableSticker({
             }}
             className={`absolute p-4 ${style.bg} ${style.border} ${style.shape} shadow-2xl ${style.width} backdrop-blur-sm`}
             data-interactive="true"
-            style={{ touchAction: 'none' }}
         >
             {/* Category header with unique icon */}
             <div className="flex justify-between items-center mb-3 pointer-events-none">
