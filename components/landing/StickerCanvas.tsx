@@ -129,11 +129,20 @@ export function StickerCanvas() {
     const [slots, setSlots] = useState<{ x: number; y: number; r: number }[]>([]);
     const [hasInteracted, setHasInteracted] = useState(false);
 
-    // Canvas panning state
+    const [scale, setScale] = useState(1);
     const [pan, setPan] = useState({ x: 0, y: 0 });
+
+    // Interaction refs
     const isPanning = useRef(false);
-    const panStart = useRef({ x: 0, y: 0 });
-    const panOrigin = useRef({ x: 0, y: 0 });
+    const isPinching = useRef(false);
+    const panStart = useRef({ x: 0, y: 0 }); // Current pan finger pos
+    const panOrigin = useRef({ x: 0, y: 0 }); // Pan value at start
+
+    // Pinch refs
+    const pinchStartDist = useRef(0);
+    const pinchStartScale = useRef(1);
+    const pinchStartPan = useRef({ x: 0, y: 0 });
+    const pinchStartCenter = useRef({ x: 0, y: 0 }); // Screen coordinates of midpoint
 
     useEffect(() => {
         setMounted(true);
@@ -181,28 +190,107 @@ export function StickerCanvas() {
         isPanning.current = false;
     }, []);
 
-    // Touch handlers for mobile panning
+    // Helper to get distance between two touches
+    const getTouchDist = (touches: React.TouchList) => {
+        const dx = touches[0].clientX - touches[1].clientX;
+        const dy = touches[0].clientY - touches[1].clientY;
+        return Math.sqrt(dx * dx + dy * dy);
+    };
+
+    // Helper to get center of two touches
+    const getTouchCenter = (touches: React.TouchList) => {
+        return {
+            x: (touches[0].clientX + touches[1].clientX) / 2,
+            y: (touches[0].clientY + touches[1].clientY) / 2,
+        };
+    };
+
+    // Touch handlers for mobile panning & zooming
     const handleTouchStart = useCallback((e: React.TouchEvent<HTMLDivElement>) => {
         const target = e.target as HTMLElement;
-        if (!target.closest('[data-interactive]')) {
+
+        // Check for 2-finger pinch first
+        if (e.touches.length === 2) {
+            isPinching.current = true;
+            isPanning.current = false; // Cancel pan if pinching
+
+            pinchStartDist.current = getTouchDist(e.touches);
+            pinchStartScale.current = scale;
+            pinchStartPan.current = { ...pan };
+            pinchStartCenter.current = getTouchCenter(e.touches);
+
+            return;
+        }
+
+        if (!target.closest('[data-interactive]') && e.touches.length === 1) {
             isPanning.current = true;
+            isPinching.current = false;
             setHasInteracted(true);
             panStart.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
             panOrigin.current = { ...pan };
         }
-    }, [pan]);
+    }, [pan, scale]);
 
     const handleTouchMove = useCallback((e: React.TouchEvent<HTMLDivElement>) => {
-        if (!isPanning.current) return;
-        const dx = e.touches[0].clientX - panStart.current.x;
-        const dy = e.touches[0].clientY - panStart.current.y;
-        setPan({
-            x: panOrigin.current.x + dx,
-            y: panOrigin.current.y + dy,
-        });
-    }, []);
+        // Handle Pinch
+        if (isPinching.current && e.touches.length === 2) {
+            e.preventDefault(); // Prevent default browser zoom actions
+
+            const dist = getTouchDist(e.touches);
+            const scaleFactor = dist / pinchStartDist.current;
+
+            // Calculate new clamped scale
+            const rawNewScale = pinchStartScale.current * scaleFactor;
+            const newScale = Math.min(Math.max(rawNewScale, 0.5), 3);
+
+            // Calculate Focal Zoom Pan Adjustment
+            const currentCenter = getTouchCenter(e.touches);
+            const windowCenterX = window.innerWidth / 2;
+            const windowCenterY = window.innerHeight / 2;
+
+            // Coordinate of the pinch center relative to the screen center
+            const fStartRel = {
+                x: pinchStartCenter.current.x - windowCenterX,
+                y: pinchStartCenter.current.y - windowCenterY
+            };
+            const fCurrRel = {
+                x: currentCenter.x - windowCenterX,
+                y: currentCenter.y - windowCenterY
+            };
+
+            // "World" point that was under the start pinch center
+            // W = (F_start_rel - P_start) / S_start
+            const worldPoint = {
+                x: (fStartRel.x - pinchStartPan.current.x) / pinchStartScale.current,
+                y: (fStartRel.y - pinchStartPan.current.y) / pinchStartScale.current
+            };
+
+            // Calculate new Pan to keep World Point under Current Pinch Center
+            // P_new = F_curr_rel - (W * S_new)
+            const newPanX = fCurrRel.x - (worldPoint.x * newScale);
+            const newPanY = fCurrRel.y - (worldPoint.y * newScale);
+
+            setScale(newScale);
+            setPan({ x: newPanX, y: newPanY });
+
+            return;
+        }
+
+        // Handle Pan
+        if (isPanning.current && e.touches.length === 1) {
+            const dx = e.touches[0].clientX - panStart.current.x;
+            const dy = e.touches[0].clientY - panStart.current.y;
+            setPan({
+                x: panOrigin.current.x + dx,
+                y: panOrigin.current.y + dy,
+            });
+        }
+    }, [scale]); // Depend on scale for correct updates if needed, though mostly using refs
 
     const handleTouchEnd = useCallback(() => {
+        if (isPinching.current) {
+            isPinching.current = false;
+        }
         isPanning.current = false;
     }, []);
 
@@ -242,18 +330,7 @@ export function StickerCanvas() {
             onTouchEnd={handleTouchEnd}
             style={{ cursor: isPanning.current ? 'grabbing' : 'default', touchAction: 'none' }}
         >
-            {/* Background Grid — moves with pan */}
-            <div
-                className="absolute inset-0 pointer-events-none transition-opacity duration-300"
-                style={{
-                    backgroundImage: 'linear-gradient(var(--lp-grid) 1px, transparent 1px), linear-gradient(90deg, var(--lp-grid) 1px, transparent 1px)',
-                    backgroundSize: '4rem 4rem',
-                    backgroundPosition: `${pan.x}px ${pan.y}px`,
-                    opacity: 'var(--lp-grid-opacity)',
-                }}
-            />
-
-            {/* Clickable background layer for panning */}
+            {/* Clickable background layer for panning interaction */}
             <div className="absolute inset-0" data-canvas-bg="true" style={{ zIndex: 0 }} />
 
             {/* Single shared coordinate origin at center + pan offset */}
@@ -261,9 +338,22 @@ export function StickerCanvas() {
                 className="absolute left-1/2 top-1/2"
                 style={{
                     zIndex: 1,
-                    transform: `translate(${pan.x}px, ${pan.y}px)`,
+                    transform: `translate(${pan.x}px, ${pan.y}px) scale(${scale})`, // Apply scale here
                 }}
             >
+                {/* Background Grid — Moved INSIDE scale container for perfect sync */}
+                <div
+                    className="absolute left-1/2 top-1/2 pointer-events-none -translate-x-1/2 -translate-y-1/2"
+                    style={{
+                        width: '8000px', // Huge enough to cover zoom out
+                        height: '8000px',
+                        zIndex: -1,
+                        backgroundImage: 'linear-gradient(var(--lp-grid) 1px, transparent 1px), linear-gradient(90deg, var(--lp-grid) 1px, transparent 1px)',
+                        backgroundSize: '4rem 4rem', // Fixed size (scales with parent)
+                        backgroundPosition: 'center',
+                        opacity: 'var(--lp-grid-opacity)',
+                    }}
+                />
                 {/* Profile card — z-index 10, behind stickers (20+) */}
                 <div style={{ transform: 'translate(-50%, -50%)', zIndex: 10, position: 'relative' }}>
                     <ProfileCard />
