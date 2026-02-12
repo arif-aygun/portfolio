@@ -46,6 +46,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
+        suppressHydrationWarning
         className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} ${firaCode.variable} ${sourceCodePro.variable} antialiased bg-void text-paper selection:bg-acid selection:text-void`}
       >
         <ThemeProvider>
