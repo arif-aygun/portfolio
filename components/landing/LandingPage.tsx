@@ -8,7 +8,7 @@ interface LandingPageProps {
 
 export function LandingPage({ onEnterIde }: LandingPageProps) {
     return (
-        <main className="h-screen w-full overflow-hidden bg-black">
+        <main className="h-[100dvh] w-full overflow-hidden bg-black">
             {/* 
                 The StickerCanvas is now the main experience. 
                 We might want to add a button in the ProfileStack to trigger 'onEnterIde' later 

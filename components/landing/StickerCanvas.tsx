@@ -216,7 +216,7 @@ export function StickerCanvas() {
 
     if (!mounted) {
         return (
-            <div className="relative w-full h-screen overflow-hidden bg-[#050505]">
+            <div className="relative w-full h-[100dvh] overflow-hidden bg-[#050505]">
                 <div
                     className="absolute inset-0 opacity-20 pointer-events-none"
                     style={{
@@ -231,7 +231,7 @@ export function StickerCanvas() {
 
     return (
         <div
-            className="relative w-full h-screen overflow-hidden bg-[#050505]"
+            className="relative w-full h-[100dvh] overflow-hidden bg-[#050505]"
             onMouseDown={handleMouseDown}
             onMouseMove={handleMouseMove}
             onMouseUp={handleMouseUp}
