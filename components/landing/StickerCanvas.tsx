@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback, useEffect } from 'react';
 import { DraggableSticker } from './DraggableSticker';
 import { ProfileCard } from './ProfileStack';
 import { projects } from '@/data/portfolio';
@@ -107,9 +107,27 @@ function generateSlots(count: number) {
     return slots;
 }
 
+// Mobile layout: vertical column centered below profile card
+const MOBILE_GAP = 24;
+function generateMobileSlots(count: number) {
+    const slots: { x: number; y: number; r: number }[] = [];
+    const startY = PROFILE_H / 2 + MOBILE_GAP + 110; // Increased space for larger, spaced-out label
+    for (let i = 0; i < count; i++) {
+        slots.push({
+            x: -STICKER_W / 2,
+            y: startY + i * (STICKER_H + MOBILE_GAP),
+            r: (i % 2 === 0 ? -1 : 1) * (1 + Math.random() * 2),
+        });
+    }
+    return slots;
+}
+
 export function StickerCanvas() {
     const [stickerZIndexes, setStickerZIndexes] = useState<number[]>(new Array(projects.length).fill(20));
-    const [slots] = useState(() => generateSlots(projects.length));
+    const [mounted, setMounted] = useState(false);
+    const [isMobile, setIsMobile] = useState(false);
+    const [slots, setSlots] = useState<{ x: number; y: number; r: number }[]>([]);
+    const [hasInteracted, setHasInteracted] = useState(false);
 
     // Canvas panning state
     const [pan, setPan] = useState({ x: 0, y: 0 });
@@ -117,11 +135,32 @@ export function StickerCanvas() {
     const panStart = useRef({ x: 0, y: 0 });
     const panOrigin = useRef({ x: 0, y: 0 });
 
+    useEffect(() => {
+        setMounted(true);
+        const checkMobile = () => {
+            const mobile = window.innerWidth < 768;
+            setIsMobile(mobile);
+            // Generate slots based on correct viewport immediately
+            setSlots(mobile ? generateMobileSlots(projects.length) : generateSlots(projects.length));
+        };
+
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
+
+    // Recalculate slots if isMobile changes after initial mount
+    useEffect(() => {
+        if (!mounted) return;
+        setSlots(isMobile ? generateMobileSlots(projects.length) : generateSlots(projects.length));
+    }, [isMobile, mounted]);
+
     const handleMouseDown = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
         // Pan on any click that's NOT on a sticker or the profile card
         const target = e.target as HTMLElement;
         if (!target.closest('[data-interactive]')) {
             isPanning.current = true;
+            setHasInteracted(true);
             panStart.current = { x: e.clientX, y: e.clientY };
             panOrigin.current = { ...pan };
             e.preventDefault();
@@ -142,6 +181,31 @@ export function StickerCanvas() {
         isPanning.current = false;
     }, []);
 
+    // Touch handlers for mobile panning
+    const handleTouchStart = useCallback((e: React.TouchEvent<HTMLDivElement>) => {
+        const target = e.target as HTMLElement;
+        if (!target.closest('[data-interactive]')) {
+            isPanning.current = true;
+            setHasInteracted(true);
+            panStart.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+            panOrigin.current = { ...pan };
+        }
+    }, [pan]);
+
+    const handleTouchMove = useCallback((e: React.TouchEvent<HTMLDivElement>) => {
+        if (!isPanning.current) return;
+        const dx = e.touches[0].clientX - panStart.current.x;
+        const dy = e.touches[0].clientY - panStart.current.y;
+        setPan({
+            x: panOrigin.current.x + dx,
+            y: panOrigin.current.y + dy,
+        });
+    }, []);
+
+    const handleTouchEnd = useCallback(() => {
+        isPanning.current = false;
+    }, []);
+
     const bringToFront = (index: number) => {
         setStickerZIndexes(prev => {
             const next = [...prev];
@@ -150,6 +214,21 @@ export function StickerCanvas() {
         });
     };
 
+    if (!mounted) {
+        return (
+            <div className="relative w-full h-screen overflow-hidden bg-[#050505]">
+                <div
+                    className="absolute inset-0 opacity-20 pointer-events-none"
+                    style={{
+                        backgroundImage: 'linear-gradient(#333 1px, transparent 1px), linear-gradient(90deg, #333 1px, transparent 1px)',
+                        backgroundSize: '4rem 4rem',
+                        backgroundPosition: '0px 0px',
+                    }}
+                />
+            </div>
+        );
+    }
+
     return (
         <div
             className="relative w-full h-screen overflow-hidden bg-[#050505]"
@@ -157,7 +236,10 @@ export function StickerCanvas() {
             onMouseMove={handleMouseMove}
             onMouseUp={handleMouseUp}
             onMouseLeave={handleMouseUp}
-            style={{ cursor: isPanning.current ? 'grabbing' : 'default' }}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+            style={{ cursor: isPanning.current ? 'grabbing' : 'default', touchAction: 'none' }}
         >
             {/* Background Grid — moves with pan */}
             <div
@@ -185,9 +267,31 @@ export function StickerCanvas() {
                     <ProfileCard />
                 </div>
 
+                {/* Projects Identifier (Mobile Only) */}
+                {isMobile && (
+                    <div
+                        className="absolute text-center pointer-events-none"
+                        style={{
+                            top: PROFILE_H / 2 + 90, // Closer to projects, further from profile
+                            left: 0,
+                            width: '100%',
+                            zIndex: 5,
+                            transform: 'translate(-50%, -50%)',
+                        }}
+                    >
+                        <div className="flex flex-col items-center gap-2 opacity-70">
+                            <span className="font-mono text-xs text-concrete uppercase tracking-[0.3em]">
+                                // Projects
+                            </span>
+                            <div className="w-px h-8 bg-gradient-to-b from-concrete/0 via-concrete/50 to-concrete/0" />
+                        </div>
+                    </div>
+                )}
+
                 {/* Stickers */}
                 {projects.map((project, index) => {
                     const slot = slots[index];
+                    if (!slot) return null; // Safety check
 
                     return (
                         <div
@@ -212,10 +316,15 @@ export function StickerCanvas() {
                 })}
             </div>
 
-            <div className="absolute bottom-6 left-0 right-0 text-center pointer-events-none opacity-40" style={{ zIndex: 5 }}>
-                <p className="font-mono text-xs text-concrete uppercase tracking-widest">
-                    Click & drag to explore
-                </p>
+            <div
+                className={`absolute bottom-6 left-0 right-0 flex justify-center pointer-events-none transition-opacity duration-1000 ${hasInteracted ? 'opacity-0' : 'opacity-100'}`}
+                style={{ zIndex: 5 }}
+            >
+                <div className="px-4 py-2 bg-black/30 backdrop-blur-sm rounded-full border border-white/5">
+                    <p className="font-mono text-xs text-white/80 uppercase tracking-widest">
+                        {isMobile ? 'Swipe to explore' : 'Click & drag to explore'}
+                    </p>
+                </div>
             </div>
         </div>
     );
