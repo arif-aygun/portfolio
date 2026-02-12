@@ -24,7 +24,7 @@ export function Terminal({ onNavigate }: TerminalProps) {
         const mainCmd = parts[0].toLowerCase();
         const args = parts.slice(1);
 
-        let output = `~/portfolio $ ${cmd}`;
+        const output = `~/portfolio $ ${cmd}`;
         setHistory(prev => [...prev, output]);
 
         switch (mainCmd) {

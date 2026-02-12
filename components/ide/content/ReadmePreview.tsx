@@ -1,23 +1,24 @@
 'use client';
 
 import { Github, Linkedin, Mail, ArrowUpRight } from 'lucide-react';
+import { useFileSystem } from '@/components/ide/context/FileSystemContext';
 
 export function ReadmePreview() {
+    const { data } = useFileSystem();
+    const { profile } = data;
+
     return (
         <div className="p-8 max-w-4xl prose prose-invert">
             <h1 className="text-5xl font-space-grotesk font-bold mb-4 text-theme-fg border-b border-electric/20 pb-4">
-                Arif Aygun
+                {profile.name}
             </h1>
 
             <h2 className="text-3xl font-space-grotesk font-bold mb-3 text-electric mt-8">
-                Full Stack Developer
+                {profile.role}
             </h2>
 
             <p className="text-concrete text-lg leading-relaxed mb-6">
-                Computer Engineering student at GTU specializing in <strong className="text-theme-fg">Backend Infrastructure</strong>,{' '}
-                <strong className="text-theme-fg">Decentralized Systems</strong>, and{' '}
-                <strong className="text-theme-fg">Interactive Experiences</strong>.
-                Building scalable solutions with modern technologies.
+                {profile.bio}
             </p>
 
             <h3 className="text-2xl font-space-grotesk font-bold mb-3 text-acid mt-8">
@@ -30,18 +31,13 @@ export function ReadmePreview() {
                 architecture to developing autonomous systems for UAVs.
             </p>
 
-            <p className="text-concrete leading-relaxed mb-6">
-                Currently working on blockchain applications, real-time productivity tools,
-                and exploring the intersection of web3 and traditional backend systems.
-            </p>
-
             <h3 className="text-2xl font-space-grotesk font-bold mb-4 text-acid mt-8">
                 Quick Links
             </h3>
 
             <div className="flex flex-wrap gap-4 mb-8">
                 <a
-                    href="https://github.com/arif-aygun"
+                    href={profile.social.github}
                     target="_blank"
                     className="flex items-center gap-2 px-4 py-2 bg-electric/20 hover:bg-electric/30 border border-electric/40 rounded-lg transition-colors group"
                 >
@@ -51,7 +47,7 @@ export function ReadmePreview() {
                 </a>
 
                 <a
-                    href="https://linkedin.com/in/ahmetarifaygun"
+                    href={profile.social.linkedin}
                     target="_blank"
                     className="flex items-center gap-2 px-4 py-2 bg-electric/20 hover:bg-electric/30 border border-electric/40 rounded-lg transition-colors group"
                 >
@@ -61,7 +57,7 @@ export function ReadmePreview() {
                 </a>
 
                 <a
-                    href="mailto:araygun48@gmail.com"
+                    href={profile.social.email}
                     className="flex items-center gap-2 px-4 py-2 bg-electric/20 hover:bg-electric/30 border border-electric/40 rounded-lg transition-colors group"
                 >
                     <Mail className="w-5 h-5 text-electric" />

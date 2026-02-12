@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Space_Grotesk, JetBrains_Mono, Fira_Code, Source_Code_Pro } from "next/font/google";
 import "./globals.css";
-import { ReactLenis } from "@/components/lenis-provider";
-import { ThemeProvider } from "@/components/theme-provider";
+import { ThemeProvider } from "@/components/providers/theme-provider";
 
 const inter = Inter({
   subsets: ["latin"],

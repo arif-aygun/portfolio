@@ -35,6 +35,7 @@ export function Sidebar({ onFileSelect, activeFile, isOpen, onClose }: SidebarPr
                 { name: 'contact.tsx', type: 'file', icon: '⚛️' },
             ],
         },
+        { name: 'portfolio.json', type: 'file', icon: '⚡' },
         { name: 'package.json', type: 'file', icon: '📦' },
     ];
 

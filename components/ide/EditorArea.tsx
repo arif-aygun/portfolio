@@ -8,6 +8,12 @@ import { AboutContent } from './content/AboutContent';
 import { ProjectsContent } from './content/ProjectsContent';
 import { SkillsContent } from './content/SkillsContent';
 import { ContactContent } from './content/ContactContent';
+import Editor from 'react-simple-code-editor';
+import { highlight, languages } from 'prismjs';
+import 'prismjs/components/prism-json';
+import 'prismjs/components/prism-markdown';
+import 'prismjs/themes/prism-tomorrow.css'; // Dark theme
+import { useFileSystem } from '@/components/ide/context/FileSystemContext';
 import { Eye, Code } from 'lucide-react';
 import { useState } from 'react';
 
@@ -24,6 +30,7 @@ interface EditorAreaProps {
 }
 
 export function EditorArea({ tabs, activeTab, onTabChange, onTabClose }: EditorAreaProps) {
+    const { files, updateFile } = useFileSystem();
     const [previewMode, setPreviewMode] = useState<{ [key: string]: boolean }>({
         'README.md': true
     });
@@ -39,13 +46,41 @@ export function EditorArea({ tabs, activeTab, onTabChange, onTabClose }: EditorA
     const isInPreview = previewMode[activeTab] || false;
 
     const renderContent = () => {
+        // Handle virtual files (Editable)
+        // If it's in our virtual filesystem, we can edit it
+        if (files[activeTab] && !isInPreview) {
+            const isJson = activeTab.endsWith('.json');
+            return (
+                <Editor
+                    value={files[activeTab]}
+                    onValueChange={code => updateFile(activeTab, code)}
+                    highlight={code => highlight(code, isJson ? languages.json : languages.markdown, isJson ? 'json' : 'markdown')}
+                    padding={20}
+                    style={{
+                        fontFamily: '"Fira Code", monospace',
+                        fontSize: 14,
+                        backgroundColor: 'var(--bg-theme)',
+                        minHeight: '100%',
+                    }}
+                    textareaClassName="focus:outline-none"
+                />
+            );
+        }
+
         // If README.md and in preview mode, show preview
         if (activeTab === 'README.md' && isInPreview) {
             return <ReadmePreview />;
         }
 
+        // Handle portfolio.json preview? Maybe just show code.
+        if (activeTab === 'portfolio.json' && isInPreview) {
+            // Maybe show a dedicated JSON viewer or just text
+            return <div className="p-4 whitespace-pre-wrap font-mono text-sm text-concrete">{files['portfolio.json']}</div>;
+        }
+
         switch (activeTab) {
             case 'README.md':
+                // Fallback if not in file system for some reason, though it should be
                 return <ReadmeContent />;
             case 'about.tsx':
                 return <AboutContent />;
@@ -55,8 +90,6 @@ export function EditorArea({ tabs, activeTab, onTabChange, onTabClose }: EditorA
                 return <SkillsContent />;
             case 'contact.tsx':
                 return <ContactContent />;
-            case 'about.tsx':
-                return <ReadmeContent />; // Can create separate AboutContent later
             case 'package.json':
                 return <PackageJsonContent />;
             default:

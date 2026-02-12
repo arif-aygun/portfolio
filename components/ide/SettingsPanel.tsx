@@ -1,6 +1,6 @@
 'use client';
 
-import { useTheme, THEME_CONFIGS, Theme, FontFamily } from '@/components/theme-provider';
+import { useTheme, THEME_CONFIGS, Theme, FontFamily } from '@/components/providers/theme-provider';
 import { Palette, Type, Zap, Check, Search, LucideIcon, Minus, Plus } from 'lucide-react';
 import { useState, useMemo } from 'react';
 
