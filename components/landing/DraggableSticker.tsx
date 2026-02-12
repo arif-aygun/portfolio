@@ -1,7 +1,7 @@
 'use client';
 
 import { motion, useMotionValue } from 'framer-motion';
-import { ArrowUpRight, Terminal, Cpu, Braces, Globe, Monitor, Server } from 'lucide-react';
+import { ArrowUpRight, Terminal, Cpu, Braces, Globe, Monitor, Server, Code } from 'lucide-react';
 import { useState, useRef } from 'react';
 
 interface Project {
@@ -172,10 +172,12 @@ export function DraggableSticker({
                         <a
                             href={project.href}
                             target="_blank"
-                            className="pointer-events-auto"
+                            className="pointer-events-auto flex items-center gap-1"
                             onClick={(e) => e.stopPropagation()}
+                            title="View Source Code"
                         >
-                            <ArrowUpRight size={14} className={`${style.accent} opacity-50 hover:opacity-100 transition-opacity`} />
+                            <Code size={11} className={`${style.accent} opacity-50 hover:opacity-100 transition-opacity`} />
+                            <span className={`text-[9px] font-bold ${style.accent} opacity-50 hover:opacity-100 transition-opacity`}>CODE</span>
                         </a>
                     )}
                 </div>
