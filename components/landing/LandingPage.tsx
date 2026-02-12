@@ -12,13 +12,26 @@ export function LandingPage({ onEnterIde }: LandingPageProps) {
     const [theme, setTheme] = useState<'light' | 'dark'>('dark');
 
     useEffect(() => {
-        // Check local storage or system preference
         const stored = localStorage.getItem('landing-theme');
+        const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+
+        const handleChange = () => {
+            // Only follow system if no manual override
+            if (!localStorage.getItem('landing-theme')) {
+                setTheme(mediaQuery.matches ? 'dark' : 'light');
+            }
+        };
+
+        // Initial Set
         if (stored === 'light' || stored === 'dark') {
             setTheme(stored);
-        } else if (window.matchMedia('(prefers-color-scheme: light)').matches) {
-            setTheme('light');
+        } else {
+            setTheme(mediaQuery.matches ? 'dark' : 'light');
         }
+
+        // Listen for system changes
+        mediaQuery.addEventListener('change', handleChange);
+        return () => mediaQuery.removeEventListener('change', handleChange);
     }, []);
 
     const toggleTheme = () => {
