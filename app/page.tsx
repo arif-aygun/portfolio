@@ -14,7 +14,7 @@ export default function Home() {
         {mode === 'landing' ? (
           <motion.div
             key="landing"
-            className="w-full min-h-screen"
+            className="w-full min-h-[100dvh]"
             exit={{ y: -1000, opacity: 0, transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] } }}
           >
             <LandingPage onEnterIde={() => setMode('ide')} />
@@ -22,7 +22,7 @@ export default function Home() {
         ) : (
           <motion.div
             key="ide"
-            className="w-full h-screen fixed inset-0 z-50 overflow-hidden"
+            className="w-full h-[100dvh] fixed inset-0 z-50 overflow-hidden"
             initial={{ y: 1000, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 1000, opacity: 0 }}
