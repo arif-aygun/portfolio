@@ -9,7 +9,7 @@ export default function Home() {
   const [mode, setMode] = useState<'landing' | 'ide'>('landing');
 
   return (
-    <div className="w-full bg-black text-white">
+    <div className="w-full text-white">
       <AnimatePresence mode="wait">
         {mode === 'landing' ? (
           <motion.div

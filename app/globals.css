@@ -7,18 +7,18 @@
   --acid: #ccff00;
   --electric: #2563eb;
   --concrete: #808080;
-  
+
   /* Fonts */
-  --font-mono: "JetBrains Mono", monospace;
+  --font-mono: var(--font-jb-mono);
   --editor-font-size: 14px;
-  
+
   /* Theme colors - default (GitHub Dark) */
   --theme-bg: #0d1117;
   --theme-fg: #c9d1d9;
   --theme-activity-bar: #0d1117;
   --theme-sidebar: #010409;
   --theme-border: #30363d;
-  
+
   /* Syntax (GitHub Dark) */
   --theme-comment: #8b949e;
   --theme-keyword: #ff7b72;
@@ -38,14 +38,14 @@
   --font-space-grotesk: var(--font-space-grotesk);
   --font-inter: var(--font-inter);
   --font-mono: var(--font-mono);
-  
+
   /* Expose theme colors to Tailwind */
   --color-theme-bg: var(--theme-bg);
   --color-theme-fg: var(--theme-fg);
   --color-theme-activity-bar: var(--theme-activity-bar);
   --color-theme-sidebar: var(--theme-sidebar);
   --color-theme-border: var(--theme-border);
-  
+
   --color-theme-comment: var(--theme-comment);
   --color-theme-keyword: var(--theme-keyword);
   --color-theme-string: var(--theme-string);
@@ -53,6 +53,157 @@
   --color-theme-function: var(--theme-function);
   --color-theme-variable: var(--theme-variable);
   --color-theme-type: var(--theme-type);
+}
+
+/* Landing Page Theme - Default (Dark) */
+:root {
+  --lp-bg: #050505;
+  --lp-fg: #ededed;
+  --lp-grid: #333333;
+  --lp-grid-opacity: 0.2;
+
+  /* Glass Effect - Dark */
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-hover: rgba(255, 255, 255, 0.1);
+
+  /* Profile Card - Dark */
+  --lp-card-bg: #0a0a0a;
+  --lp-card-layer-1: #161616;
+  --lp-card-layer-2: #111111;
+  --lp-card-border: rgba(255, 255, 255, 0.2);
+  --lp-card-shadow: rgba(0, 0, 0, 0.5);
+  --lp-text-muted: #808080;
+  /* concrete */
+
+  /* Stickers - Dark Defaults */
+  --sticker-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  --sticker-algo-bg: #0c1a0c;
+  --sticker-algo-border: rgba(34, 197, 94, 0.4);
+  /* green-500/40 */
+  --sticker-algo-text: #dcfce7;
+  /* green-100 */
+  --sticker-algo-accent: #4ade80;
+  /* green-400 */
+
+  --sticker-fs-bg: #1a1a2e;
+  --sticker-fs-border: rgba(96, 165, 250, 0.3);
+  /* blue-400/30 */
+  --sticker-fs-text: #ffffff;
+  --sticker-fs-accent: #60a5fa;
+  /* blue-400 */
+
+  --sticker-sys-bg: #1a1410;
+  --sticker-sys-border: rgba(245, 158, 11, 0.4);
+  /* amber-500/40 */
+  --sticker-sys-text: #fffbeb;
+  /* amber-50 */
+  --sticker-sys-accent: #fbbf24;
+  /* amber-400 */
+
+  --sticker-web3-bg: #1a0a2e;
+  --sticker-web3-border: rgba(192, 132, 252, 0.5);
+  /* purple-400/50 */
+  --sticker-web3-text: #faf5ff;
+  /* purple-50 */
+  --sticker-web3-accent: #c084fc;
+  /* purple-400 */
+
+  --sticker-desktop-bg: #1a0f14;
+  --sticker-desktop-border: rgba(251, 113, 133, 0.3);
+  /* rose-400/30 */
+  --sticker-desktop-text: #fff1f2;
+  /* rose-50 */
+  --sticker-desktop-accent: #fb7185;
+  /* rose-400 */
+
+  --sticker-backend-bg: #0a0f14;
+  --sticker-backend-border: rgba(6, 182, 212, 0.3);
+  /* cyan-500/30 */
+  --sticker-backend-text: #ecfeff;
+  /* cyan-50 */
+  --sticker-backend-accent: #22d3ee;
+  /* cyan-400 */
+}
+
+/* Landing Page Theme - Light */
+[data-theme='light'] {
+  --lp-bg: #f4f4f5;
+  /* paper-like, slightly darker than pure white for contrast */
+  --lp-fg: #050505;
+  /* void */
+  --lp-grid: #cccccc;
+  --lp-grid-opacity: 0.4;
+
+  /* Glass Effect - Light */
+  --glass-bg: rgba(0, 0, 0, 0.05);
+  --glass-border: rgba(0, 0, 0, 0.1);
+  --glass-hover: rgba(0, 0, 0, 0.1);
+
+  /* Profile Card - Light */
+  --lp-card-bg: #ffffff;
+  --lp-card-layer-1: #f0f0f0;
+  --lp-card-layer-2: #e0e0e0;
+  --lp-card-border: rgba(0, 0, 0, 0.2);
+  --lp-card-shadow: rgba(0, 0, 0, 0.1);
+  --lp-text-muted: #666666;
+
+  /* Stickers - LightOverrides */
+  --sticker-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+
+  --sticker-algo-bg: #dcfce7;
+  /* green-100 */
+  --sticker-algo-border: #166534;
+  /* green-800 */
+  --sticker-algo-text: #166534;
+  /* green-800 */
+  --sticker-algo-accent: #15803d;
+  /* green-700 */
+
+  --sticker-fs-bg: #dbeafe;
+  /* blue-100 */
+  --sticker-fs-border: #1e40af;
+  /* blue-800 */
+  --sticker-fs-text: #1e40af;
+  /* blue-800 */
+  --sticker-fs-accent: #1d4ed8;
+  /* blue-700 */
+
+  --sticker-sys-bg: #fef3c7;
+  /* amber-100 */
+  --sticker-sys-border: #92400e;
+  /* amber-800 */
+  --sticker-sys-text: #92400e;
+  /* amber-800 */
+  --sticker-sys-accent: #b45309;
+  /* amber-700 */
+
+  --sticker-web3-bg: #f3e8ff;
+  /* purple-100 */
+  --sticker-web3-border: #6b21a8;
+  /* purple-800 */
+  --sticker-web3-text: #6b21a8;
+  /* purple-800 */
+  --sticker-web3-accent: #7e22ce;
+  /* purple-700 */
+
+  --sticker-desktop-bg: #ffe4e6;
+  /* rose-100 */
+  --sticker-desktop-border: #9f1239;
+  /* rose-800 */
+  --sticker-desktop-text: #9f1239;
+  /* rose-800 */
+  --sticker-desktop-accent: #be123c;
+  /* rose-700 */
+
+  --sticker-backend-bg: #cffafe;
+  /* cyan-100 */
+  --sticker-backend-border: #155e75;
+  /* cyan-800 */
+  --sticker-backend-text: #155e75;
+  /* cyan-800 */
+  --sticker-backend-accent: #0e7490;
+  /* cyan-700 */
 }
 
 body {
@@ -63,7 +214,12 @@ body {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-space-grotesk), sans-serif;
   font-weight: 700;
   letter-spacing: -0.02em;
@@ -149,7 +305,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* Lenis Recommended Styles */
-html.lenis, html.lenis body {
+html.lenis,
+html.lenis body {
   height: auto;
 }
 

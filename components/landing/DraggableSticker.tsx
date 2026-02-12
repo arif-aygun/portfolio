@@ -34,63 +34,63 @@ const STICKER_STYLES: Record<string, {
     width: string;
 }> = {
     'Algorithms': {
-        bg: 'bg-[#0c1a0c]',
-        border: 'border border-green-500/40',
+        bg: 'bg-[var(--sticker-algo-bg)]',
+        border: 'border-2 border-[var(--sticker-algo-border)]',
         shape: 'rounded-none',
-        accent: 'text-green-400',
-        textColor: 'text-green-100',
-        tagStyle: 'border-green-500/30 text-green-400/70',
-        icon: <Terminal size={14} className="text-green-400" />,
+        accent: 'text-[var(--sticker-algo-accent)]',
+        textColor: 'text-[var(--sticker-algo-text)]',
+        tagStyle: 'border-[var(--sticker-algo-border)] text-[var(--sticker-algo-accent)]',
+        icon: <Terminal size={14} className="text-[var(--sticker-algo-accent)]" />,
         width: 'w-56',
     },
     'Full Stack': {
-        bg: 'bg-gradient-to-br from-[#1a1a2e] to-[#16213e]',
-        border: 'border-2 border-blue-400/30',
+        bg: 'bg-[var(--sticker-fs-bg)]', // Switched to solid color for transition
+        border: 'border-2 border-[var(--sticker-fs-border)]',
         shape: 'rounded-2xl',
-        accent: 'text-blue-400',
-        textColor: 'text-white',
-        tagStyle: 'border-blue-400/30 text-blue-300/70',
-        icon: <Globe size={14} className="text-blue-400" />,
+        accent: 'text-[var(--sticker-fs-accent)]',
+        textColor: 'text-[var(--sticker-fs-text)]',
+        tagStyle: 'border-[var(--sticker-fs-border)] text-[var(--sticker-fs-accent)]',
+        icon: <Globe size={14} className="text-[var(--sticker-fs-accent)]" />,
         width: 'w-60',
     },
     'Systems': {
-        bg: 'bg-[#1a1410]',
-        border: 'border border-amber-500/40',
+        bg: 'bg-[var(--sticker-sys-bg)]',
+        border: 'border-2 border-[var(--sticker-sys-border)]',
         shape: 'rounded-sm',
-        accent: 'text-amber-400',
-        textColor: 'text-amber-50',
-        tagStyle: 'border-amber-500/30 text-amber-400/60',
-        icon: <Cpu size={14} className="text-amber-400" />,
+        accent: 'text-[var(--sticker-sys-accent)]',
+        textColor: 'text-[var(--sticker-sys-text)]',
+        tagStyle: 'border-[var(--sticker-sys-border)] text-[var(--sticker-sys-accent)]',
+        icon: <Cpu size={14} className="text-[var(--sticker-sys-accent)]" />,
         width: 'w-56',
     },
     'Web3': {
-        bg: 'bg-gradient-to-br from-[#1a0a2e] to-[#0d0d1a]',
-        border: 'border border-purple-400/50',
+        bg: 'bg-[var(--sticker-web3-bg)]',
+        border: 'border-2 border-[var(--sticker-web3-border)]',
         shape: 'rounded-3xl',
-        accent: 'text-purple-400',
-        textColor: 'text-purple-50',
-        tagStyle: 'border-purple-400/30 text-purple-300/60',
-        icon: <Braces size={14} className="text-purple-400" />,
+        accent: 'text-[var(--sticker-web3-accent)]',
+        textColor: 'text-[var(--sticker-web3-text)]',
+        tagStyle: 'border-[var(--sticker-web3-border)] text-[var(--sticker-web3-accent)]',
+        icon: <Braces size={14} className="text-[var(--sticker-web3-accent)]" />,
         width: 'w-52',
     },
     'Desktop': {
-        bg: 'bg-[#1a0f14]',
-        border: 'border-2 border-rose-400/30',
+        bg: 'bg-[var(--sticker-desktop-bg)]',
+        border: 'border-2 border-[var(--sticker-desktop-border)]',
         shape: 'rounded-xl',
-        accent: 'text-rose-400',
-        textColor: 'text-rose-50',
-        tagStyle: 'border-rose-400/25 text-rose-300/60',
-        icon: <Monitor size={14} className="text-rose-400" />,
+        accent: 'text-[var(--sticker-desktop-accent)]',
+        textColor: 'text-[var(--sticker-desktop-text)]',
+        tagStyle: 'border-[var(--sticker-desktop-border)] text-[var(--sticker-desktop-accent)]',
+        icon: <Monitor size={14} className="text-[var(--sticker-desktop-accent)]" />,
         width: 'w-64',
     },
     'Backend': {
-        bg: 'bg-[#0a0f14]',
-        border: 'border border-cyan-500/30',
+        bg: 'bg-[var(--sticker-backend-bg)]',
+        border: 'border-2 border-[var(--sticker-backend-border)]',
         shape: 'rounded-lg',
-        accent: 'text-cyan-400',
-        textColor: 'text-cyan-50',
-        tagStyle: 'border-cyan-500/25 text-cyan-400/60',
-        icon: <Server size={14} className="text-cyan-400" />,
+        accent: 'text-[var(--sticker-backend-accent)]',
+        textColor: 'text-[var(--sticker-backend-text)]',
+        tagStyle: 'border-[var(--sticker-backend-border)] text-[var(--sticker-backend-accent)]',
+        icon: <Server size={14} className="text-[var(--sticker-backend-accent)]" />,
         width: 'w-58',
     },
 };
@@ -121,7 +121,14 @@ export function DraggableSticker({
             onDragEnd={() => {
                 setTimeout(() => { isDragging.current = false; }, 0);
             }}
-            style={{ x, y, touchAction: 'none', zIndex }} // Bind x, y here
+            className={`absolute p-4 ${style.bg} ${style.border} ${style.shape} ${style.width} backdrop-blur-sm transition-[background-color,background-image,border-color,color,box-shadow] duration-300`}
+            style={{
+                x,
+                y,
+                touchAction: 'none',
+                zIndex,
+                boxShadow: 'var(--sticker-shadow)'
+            }}
             initial={{
                 rotate: initialRotate,
                 scale: 0.8,
@@ -130,7 +137,6 @@ export function DraggableSticker({
             animate={{
                 scale: isExpanded ? 1.08 : 1,
                 opacity: 1,
-                // zIndex: zIndex // zIndex is now in style prop
             }}
             whileHover={{ scale: isExpanded ? 1.12 : 1.04, cursor: 'grab' }}
             whileDrag={{ scale: 1.08, cursor: 'grabbing', userSelect: 'none' }}
@@ -140,7 +146,6 @@ export function DraggableSticker({
                     setIsExpanded(!isExpanded);
                 }
             }}
-            className={`absolute p-4 ${style.bg} ${style.border} ${style.shape} shadow-2xl ${style.width} backdrop-blur-sm`}
             data-interactive="true"
         >
             {/* Category header with unique icon */}
@@ -160,7 +165,7 @@ export function DraggableSticker({
                             onClick={(e) => e.stopPropagation()}
                         >
                             <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
-                            <span className={`text-[9px] font-mono ${style.accent} opacity-50 hover:opacity-100 transition-opacity`}>LIVE</span>
+                            <span className={`text-[9px] font-bold ${style.accent} opacity-50 hover:opacity-100 transition-opacity`}>LIVE</span>
                         </a>
                     )}
                     {project.href && (

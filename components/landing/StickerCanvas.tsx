@@ -216,13 +216,14 @@ export function StickerCanvas() {
 
     if (!mounted) {
         return (
-            <div className="relative w-full h-[100dvh] overflow-hidden bg-[#050505]">
+            <div className="relative w-full h-[100dvh] overflow-hidden bg-[var(--lp-bg)] transition-colors duration-300">
                 <div
-                    className="absolute inset-0 opacity-20 pointer-events-none"
+                    className="absolute inset-0 pointer-events-none"
                     style={{
-                        backgroundImage: 'linear-gradient(#333 1px, transparent 1px), linear-gradient(90deg, #333 1px, transparent 1px)',
+                        backgroundImage: 'linear-gradient(var(--lp-grid) 1px, transparent 1px), linear-gradient(90deg, var(--lp-grid) 1px, transparent 1px)',
                         backgroundSize: '4rem 4rem',
                         backgroundPosition: '0px 0px',
+                        opacity: 'var(--lp-grid-opacity)',
                     }}
                 />
             </div>
@@ -231,7 +232,7 @@ export function StickerCanvas() {
 
     return (
         <div
-            className="relative w-full h-[100dvh] overflow-hidden bg-[#050505]"
+            className="relative w-full h-[100dvh] overflow-hidden bg-[var(--lp-bg)] transition-colors duration-300"
             onMouseDown={handleMouseDown}
             onMouseMove={handleMouseMove}
             onMouseUp={handleMouseUp}
@@ -243,11 +244,12 @@ export function StickerCanvas() {
         >
             {/* Background Grid — moves with pan */}
             <div
-                className="absolute inset-0 opacity-20 pointer-events-none"
+                className="absolute inset-0 pointer-events-none transition-opacity duration-300"
                 style={{
-                    backgroundImage: 'linear-gradient(#333 1px, transparent 1px), linear-gradient(90deg, #333 1px, transparent 1px)',
+                    backgroundImage: 'linear-gradient(var(--lp-grid) 1px, transparent 1px), linear-gradient(90deg, var(--lp-grid) 1px, transparent 1px)',
                     backgroundSize: '4rem 4rem',
                     backgroundPosition: `${pan.x}px ${pan.y}px`,
+                    opacity: 'var(--lp-grid-opacity)',
                 }}
             />
 
@@ -320,8 +322,8 @@ export function StickerCanvas() {
                 className={`absolute bottom-6 left-0 right-0 flex justify-center pointer-events-none transition-opacity duration-1000 ${hasInteracted ? 'opacity-0' : 'opacity-100'}`}
                 style={{ zIndex: 5 }}
             >
-                <div className="px-4 py-2 bg-black/30 backdrop-blur-sm rounded-full border border-white/5">
-                    <p className="font-mono text-xs text-white/80 uppercase tracking-widest">
+                <div className="px-4 py-2 bg-[var(--lp-fg)]/10 backdrop-blur-sm rounded-full border border-[var(--lp-fg)]/10">
+                    <p className="font-mono text-xs text-[var(--lp-fg)]/80 uppercase tracking-widest">
                         {isMobile ? 'Swipe to explore' : 'Click & drag to explore'}
                     </p>
                 </div>
