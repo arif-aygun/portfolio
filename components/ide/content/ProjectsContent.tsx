@@ -1,15 +1,11 @@
 'use client';
 
 import { ExternalLink } from 'lucide-react';
+import { useFileSystem } from '@/components/ide/context/FileSystemContext';
 
 export function ProjectsContent() {
-    const projects = [
-        { title: "LetMeClick", desc: "Full-stack gamification platform with microservices architecture, Redis caching, and real-time leaderboards.", tags: ["TypeScript", "Docker", "Redis"], href: "https://letmeclick.io" },
-        { title: "UAV Payload", desc: "Autonomous object detection & trajectory calculation system for competition UAVs using OpenCV.", tags: ["Python", "OpenCV", "ROS"], href: "https://github.com/GTU-Kuzgun/kuzgun_2025" },
-        { title: "TSP Solver", desc: "Interactive visualization of Traveling Salesman Problem using genetic algorithms and Canvas API.", tags: ["JavaScript", "Algorithms"], href: "https://github.com/arif-aygun/Logistic-Route-Optimizer" },
-        { title: "Base Genius", desc: "Decentralized quiz application on Base L2, featuring smart contract rewards and Web3 authentication.", tags: ["Solidity", "Web3", "Next.js"], href: "https://github.com/arif-aygun/base-genius" },
-        { title: "Midnight Guardian", desc: "Real-time productivity tool with Windows API integration for activity tracking and focused work sessions.", tags: ["Node.js", "Electron", "WinAPI"], href: "https://github.com/arif-aygun/midnight-guardian" },
-    ];
+    const { data } = useFileSystem();
+    const { projects } = data;
 
     return (
         <div className="p-8 font-mono ">
@@ -50,7 +46,7 @@ export function ProjectsContent() {
                                 <div className="mb-1">
                                     <span className="syntax-variable">description</span>
                                     <span className="text-concrete">: </span>
-                                    <span className="syntax-string">"{project.desc}"</span>
+                                    <span className="syntax-string">"{project.description}"</span>
                                     <span className="text-concrete">,</span>
                                 </div>
                                 <div className="mb-1">
@@ -64,19 +60,21 @@ export function ProjectsContent() {
                                     ))}
                                     <span className="text-concrete">],</span>
                                 </div>
-                                <div className="flex items-center gap-2">
-                                    <span className="syntax-variable">link</span>
-                                    <span className="text-concrete">: </span>
-                                    <a
-                                        href={project.href}
-                                        target="_blank"
-                                        className="syntax-type hover:underline inline-flex items-center gap-1"
-                                    >
-                                        "{project.href.replace('https://', '')}"
-                                        <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
-                                    </a>
-                                    <span className="text-concrete">,</span>
-                                </div>
+                                {project.href && (
+                                    <div className="flex items-center gap-2">
+                                        <span className="syntax-variable">link</span>
+                                        <span className="text-concrete">: </span>
+                                        <a
+                                            href={project.href}
+                                            target="_blank"
+                                            className="syntax-type hover:underline inline-flex items-center gap-1"
+                                        >
+                                            "{project.href.replace('https://', '')}"
+                                            <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                        </a>
+                                        <span className="text-concrete">,</span>
+                                    </div>
+                                )}
                             </div>
                             <div className="text-concrete">
                                 {'}'}
