@@ -44,10 +44,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} ${firaCode.variable} ${sourceCodePro.variable}`}>
       <body
         suppressHydrationWarning
-        className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} ${firaCode.variable} ${sourceCodePro.variable} antialiased bg-void text-paper selection:bg-acid selection:text-void`}
+        className="antialiased bg-void text-paper selection:bg-acid selection:text-void"
       >
         <ThemeProvider>
           {children}
