@@ -60,9 +60,39 @@ export function ProjectsContent() {
                                     ))}
                                     <span className="text-concrete">],</span>
                                 </div>
+                                {project.liveUrl && (
+                                    <div className="flex items-center gap-2">
+                                        <span className="syntax-variable">liveUrl</span>
+                                        <span className="text-concrete">: </span>
+                                        <a
+                                            href={project.liveUrl}
+                                            target="_blank"
+                                            className="syntax-type hover:underline inline-flex items-center gap-1"
+                                        >
+                                            "{project.liveUrl.replace('https://', '')}"
+                                            <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                        </a>
+                                        <span className="text-concrete">,</span>
+                                    </div>
+                                )}
+                                {project.downloadUrl && (
+                                    <div className="flex items-center gap-2">
+                                        <span className="syntax-variable">downloadUrl</span>
+                                        <span className="text-concrete">: </span>
+                                        <a
+                                            href={project.downloadUrl}
+                                            target="_blank"
+                                            className="syntax-type hover:underline inline-flex items-center gap-1"
+                                        >
+                                            "{project.downloadUrl.replace('https://', '')}"
+                                            <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                        </a>
+                                        <span className="text-concrete">,</span>
+                                    </div>
+                                )}
                                 {project.href && (
                                     <div className="flex items-center gap-2">
-                                        <span className="syntax-variable">link</span>
+                                        <span className="syntax-variable">repo</span>
                                         <span className="text-concrete">: </span>
                                         <a
                                             href={project.href}

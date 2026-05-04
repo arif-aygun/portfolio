@@ -1,7 +1,7 @@
 'use client';
 
 import { motion, useMotionValue } from 'framer-motion';
-import { ArrowUpRight, Terminal, Cpu, Braces, Globe, Monitor, Server, Code } from 'lucide-react';
+import { ArrowUpRight, Terminal, Cpu, Braces, Globe, Monitor, Server, Code, Download } from 'lucide-react';
 import { useState, useRef } from 'react';
 
 interface Project {
@@ -10,6 +10,7 @@ interface Project {
     tags: string[];
     href?: string;
     liveUrl?: string;
+    downloadUrl?: string;
     category: string;
 }
 
@@ -166,6 +167,18 @@ export function DraggableSticker({
                         >
                             <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
                             <span className={`text-[9px] font-bold ${style.accent} opacity-50 hover:opacity-100 transition-opacity`}>LIVE</span>
+                        </a>
+                    )}
+                    {project.downloadUrl && (
+                        <a
+                            href={project.downloadUrl}
+                            target="_blank"
+                            className="pointer-events-auto flex items-center gap-1"
+                            onClick={(e) => e.stopPropagation()}
+                            title="Download Release"
+                        >
+                            <Download size={11} className={`${style.accent} opacity-50 hover:opacity-100 transition-opacity`} />
+                            <span className={`text-[9px] font-bold ${style.accent} opacity-50 hover:opacity-100 transition-opacity`}>DOWNLOAD</span>
                         </a>
                     )}
                     {project.href && (

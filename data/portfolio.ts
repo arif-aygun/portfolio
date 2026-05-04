@@ -37,6 +37,7 @@ export const projects = [
         description: "Real-time productivity tool with Windows API integration for activity tracking and focused work sessions.",
         tags: ["Node.js", "Windows API"],
         href: "https://github.com/arif-aygun/midnight-guardian",
+        downloadUrl: "https://github.com/arif-aygun/midnight-guardian/releases",
         category: "Desktop"
     },
 
