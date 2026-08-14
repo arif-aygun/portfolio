@@ -27,9 +27,9 @@ export const projects = [
     },
     {
         title: "Rise App",
-        description: "Anti-swipe mobile dating app that creates one anonymous morning connection via shared wake-up alarms, daily rituals, and a staged mutual reveal flow designed for genuine engagement.",
+        description: "Private mobile social app in active development, focused on meaningful daily connection rituals and a calm, intentional user experience.",
         tags: ["React Native", "Expo", "TypeScript", "Fastify", "Supabase"],
-        status: "In Active Development (Pre-launch)",
+        status: "In Active Development (Private)",
         category: "Mobile"
     },
     {
