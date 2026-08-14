@@ -26,6 +26,20 @@ export const projects = [
         category: "Backend"
     },
     {
+        title: "Rise App",
+        description: "Private mobile social app in active development, focused on meaningful daily connection rituals and a calm, intentional user experience.",
+        tags: ["React Native", "Expo", "TypeScript", "Fastify", "Supabase"],
+        status: "In Active Development (Private)",
+        category: "Mobile"
+    },
+    {
+        title: "Crema App",
+        description: "Mobile app that turns coffee reels into structured brew recipes with ingredients, ordered steps, and timers using a multi-provider AI extraction pipeline with source-language output and on-demand translation.",
+        tags: ["React Native", "Expo", "Node.js", "Express", "Prisma"],
+        status: "In Active Development (Pre-launch)",
+        category: "Mobile"
+    },
+    {
         title: "Enterprise Inventory System",
         description: "Designed with strict Object-Oriented Analysis (OOAD). Utilizes Inheritance for item categorization and Interfaces for database abstraction.",
         tags: ["Java (OOP)", "Design Patterns", "UML Architecture"],
