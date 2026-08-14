@@ -29,12 +29,14 @@ export const projects = [
         title: "Rise App",
         description: "Anti-swipe mobile dating app that creates one anonymous morning connection via shared wake-up alarms, daily rituals, and a staged mutual reveal flow designed for genuine engagement.",
         tags: ["React Native", "Expo", "TypeScript", "Fastify", "Supabase"],
+        status: "In Active Development (Pre-launch)",
         category: "Mobile"
     },
     {
         title: "Crema App",
         description: "Mobile app that turns coffee reels into structured brew recipes with ingredients, ordered steps, and timers using a multi-provider AI extraction pipeline with source-language output and on-demand translation.",
         tags: ["React Native", "Expo", "Node.js", "Express", "Prisma"],
+        status: "In Active Development (Pre-launch)",
         category: "Mobile"
     },
     {

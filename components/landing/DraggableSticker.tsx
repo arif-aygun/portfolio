@@ -8,6 +8,7 @@ interface Project {
     title: string;
     description: string;
     tags: string[];
+    status?: string;
     href?: string;
     liveUrl?: string;
     downloadUrl?: string;
@@ -211,6 +212,11 @@ export function DraggableSticker({
                     <p className="text-[11px] text-concrete/80 leading-relaxed mb-3">
                         {project.description}
                     </p>
+                    {project.status && (
+                        <p className="text-[10px] text-concrete/70 mb-2 font-mono">
+                            Status: {project.status}
+                        </p>
+                    )}
                     <div className="flex flex-wrap gap-1">
                         {project.tags.map(tag => (
                             <span key={tag} className={`text-[9px] font-mono border ${style.tagStyle} px-1.5 py-0.5 rounded-sm`}>
