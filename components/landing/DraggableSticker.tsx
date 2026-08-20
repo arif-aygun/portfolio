@@ -1,7 +1,7 @@
 'use client';
 
-import { motion, useMotionValue } from 'framer-motion';
-import { ArrowUpRight, Terminal, Cpu, Braces, Globe, Monitor, Server, Code, Download } from 'lucide-react';
+import { AnimatePresence, motion, useMotionValue } from 'framer-motion';
+import { ArrowUpRight, Terminal, Cpu, Braces, Globe, Monitor, Smartphone, Server, Code, Download } from 'lucide-react';
 import { useState, useRef } from 'react';
 
 interface Project {
@@ -85,6 +85,16 @@ const STICKER_STYLES: Record<string, {
         icon: <Monitor size={14} className="text-[var(--sticker-desktop-accent)]" />,
         width: 'w-64',
     },
+    'Mobile': {
+        bg: 'bg-[var(--sticker-mobile-bg)]',
+        border: 'border-2 border-[var(--sticker-mobile-border)]',
+        shape: 'rounded-[1.75rem]',
+        accent: 'text-[var(--sticker-mobile-accent)]',
+        textColor: 'text-[var(--sticker-mobile-text)]',
+        tagStyle: 'border-[var(--sticker-mobile-border)] text-[var(--sticker-mobile-accent)]',
+        icon: <Smartphone size={14} className="text-[var(--sticker-mobile-accent)]" />,
+        width: 'w-56',
+    },
     'Backend': {
         bg: 'bg-[var(--sticker-backend-bg)]',
         border: 'border-2 border-[var(--sticker-backend-border)]',
@@ -95,6 +105,17 @@ const STICKER_STYLES: Record<string, {
         icon: <Server size={14} className="text-[var(--sticker-backend-accent)]" />,
         width: 'w-58',
     },
+};
+
+// Snappy expand/collapse. Ease-out on open so it arrives quickly, ease-in on
+// close so it accelerates away instead of vanishing.
+const EXPAND_TRANSITION = {
+    height: { duration: 0.22, ease: [0.16, 1, 0.3, 1] as const },
+    opacity: { duration: 0.16, ease: 'easeOut' as const },
+};
+const COLLAPSE_TRANSITION = {
+    height: { duration: 0.18, ease: [0.7, 0, 0.84, 0] as const },
+    opacity: { duration: 0.12, ease: 'easeIn' as const },
 };
 
 const DEFAULT_STYLE = STICKER_STYLES['Desktop'];
@@ -203,34 +224,41 @@ export function DraggableSticker({
             </h3>
 
             {/* Expanded details */}
-            {isExpanded && (
-                <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: 'auto' }}
-                    className="overflow-hidden pointer-events-none mt-2"
-                >
-                    <p className="text-[11px] text-concrete/80 leading-relaxed mb-3">
-                        {project.description}
-                    </p>
-                    {project.status && (
-                        <p className="text-[10px] text-concrete/70 mb-2 font-mono">
-                            Status: {project.status}
+            <AnimatePresence initial={false}>
+                {isExpanded && (
+                    <motion.div
+                        key="details"
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto', transition: EXPAND_TRANSITION }}
+                        exit={{ opacity: 0, height: 0, transition: COLLAPSE_TRANSITION }}
+                        className="overflow-hidden pointer-events-none mt-2"
+                    >
+                        <p className="text-[11px] text-concrete/80 leading-relaxed mb-3">
+                            {project.description}
                         </p>
-                    )}
-                    <div className="flex flex-wrap gap-1">
-                        {project.tags.map(tag => (
-                            <span key={tag} className={`text-[9px] font-mono border ${style.tagStyle} px-1.5 py-0.5 rounded-sm`}>
-                                {tag}
-                            </span>
-                        ))}
-                    </div>
-                </motion.div>
-            )}
+                        {project.status && (
+                            <p className="text-[10px] text-concrete/70 mb-2 font-mono">
+                                Status: {project.status}
+                            </p>
+                        )}
+                        <div className="flex flex-wrap gap-1">
+                            {project.tags.map(tag => (
+                                <span key={tag} className={`text-[9px] font-mono border ${style.tagStyle} px-1.5 py-0.5 rounded-sm`}>
+                                    {tag}
+                                </span>
+                            ))}
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
 
-            {/* Collapsed indicator — unique per style */}
-            {!isExpanded && (
-                <div className={`h-0.5 w-6 ${style.accent} opacity-20 mt-2`} />
-            )}
+            {/* Collapsed indicator — kept mounted and faded so collapsing does not
+                jump when it reappears */}
+            <motion.div
+                className={`h-0.5 w-6 ${style.accent} mt-2`}
+                animate={{ opacity: isExpanded ? 0 : 0.2 }}
+                transition={{ duration: 0.15 }}
+            />
         </motion.div>
     );
 }
