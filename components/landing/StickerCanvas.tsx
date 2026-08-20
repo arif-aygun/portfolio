@@ -51,11 +51,12 @@ function generateSlots(count: number) {
             const angleJitter = (Math.random() - 0.5) * 0.5;
             const angle = baseAngle + angleJitter;
 
-            // Vary distance, push further out on retries
-            const tMin = 0.4 + (attempt / MAX_RETRIES) * 0.3;
-            const t = tMin + Math.random() * (1 - tMin);
-            const rx = safeX + (orbitX - safeX) * t;
-            const ry = safeY + (orbitY - safeY) * t;
+            // Vary distance within the ring, and grow the ring itself on retries
+            // so crowded sectors can escape outward instead of hitting the fallback.
+            const t = 0.4 + Math.random() * 0.6;
+            const expand = 1 + (attempt / MAX_RETRIES) * 0.6;
+            const rx = (safeX + (orbitX - safeX) * t) * expand;
+            const ry = (safeY + (orbitY - safeY) * t) * expand;
 
             const cx = Math.cos(angle) * rx;
             const cy = Math.sin(angle) * ry;
@@ -83,15 +84,18 @@ function generateSlots(count: number) {
             }
         }
 
-        // Fallback: place at max orbit if all retries failed
+        // Fallback: the ring cannot fit every card without overlap, so a crowded
+        // sector may exhaust its retries. Keep this randomized — a deterministic
+        // fallback pins the card to an identical spot on every load.
         if (!found) {
-            const angle = baseAngle;
-            const cx = Math.cos(angle) * orbitX * 1.2;
-            const cy = Math.sin(angle) * orbitY * 1.2;
+            const angle = baseAngle + (Math.random() - 0.5) * 0.4;
+            const band = 1.15 + Math.random() * 0.25;
+            const cx = Math.cos(angle) * orbitX * band;
+            const cy = Math.sin(angle) * orbitY * band;
             bestSlot = {
                 x: cx - STICKER_W / 2,
                 y: cy - STICKER_H / 2,
-                r: (i % 2 === 0 ? -1 : 1) * 4
+                r: (Math.random() > 0.5 ? 1 : -1) * (2 + Math.random() * 5)
             };
             placed.push({
                 x: cx - STICKER_W / 2,
